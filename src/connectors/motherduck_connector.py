@@ -40,7 +40,7 @@ class MotherDuckConnector:
         )
 
         sql_secret = f"""
-        CREATE OR REPLACE SECRET r2_lakehouse_secret (
+        CREATE OR REPLACE SECRET r2_lakehouse_secret IN MOTHERDUCK (
             TYPE S3,
             KEY_ID '{settings.R2_ACCESS_KEY_ID}',
             SECRET '{settings.R2_SECRET_ACCESS_KEY}',
