@@ -2,6 +2,9 @@ import abc
 from datetime import datetime, timezone
 import pandas as pd
 
+from typing import Optional
+from src.connectors.motherduck_connector import MotherDuckConnector
+from src.config import settings
 from src.connectors.r2_connector import R2Connector
 
 
@@ -25,6 +28,8 @@ class BaseExtractor(abc.ABC):
 
         # 2. Inicializacao do conector de armazenamento para a camada Bronze
         self.r2_connector = R2Connector()
+        # Inicializacao do conector do MotherDuck
+        self.motherduck_connector = MotherDuckConnector()
 
     @abc.abstractmethod
     def extract(self) -> pd.DataFrame:
@@ -99,35 +104,59 @@ class BaseExtractor(abc.ABC):
         )
 
         return uri_final
-
-    def run(self, target_key: str) -> str:
+    
+    def catalog_bronze(
+        self,
+        schema_name: str,
+        target_key: str,
+        criar_como_tabela: bool = False
+    ) -> None:
         """
-        Template Method: Executa o ciclo de vida completo de ingestao:
-        1. Extracao customizada (definida pela classe filha).
-        2. Validacao do payload retornado.
-        3. Injecao de metadados de governanca.
-        4. Gravacao em Parquet no Data Lake (Cloudflare R2).
+        Registra o objeto no MotherDuck apontando diretamente para o arquivo no R2.
+        Ex: s3://lakehouse-bronze/aneel/gd/empreendimentos_gd.parquet
+        """
+        caminho_s3_direto = f"s3://{settings.R2_BUCKET_BRONZE}/{target_key}"
+
+        self.motherduck_connector.registrar_tabela_bronze(
+            schema_name=schema_name,
+            nome_tabela=self.source_name,
+            origem_s3_padrao=caminho_s3_direto,
+            criar_como_tabela_fisica=criar_como_tabela
+        )
+
+    def run(
+        self,
+        target_key: str,
+        schema_name: str = "gd",
+        criar_como_tabela_fisica: bool = False
+    ) -> str:
+        """
+        Template Method: Ingestao completa na camada Bronze.
         """
         print(f"\n=======================================================")
         print(f"   INICIANDO PIPELINE DE INGESTAO: {self.source_name.upper()}   ")
         print(f"=======================================================")
 
-        # Etapa 1: Extracao
+        # 1. Extracao
         df_bruto = self.extract()
-
-        # Validacao centralizada logo na saida da extracao
         self._validate_dataframe(df_bruto, contexto_operacao=f"extracao de {self.source_name}")
+        print(f"--> [BaseExtractor] Extracao concluida: {len(df_bruto):,} registros coletados.")
 
-        total_registros = len(df_bruto)
-        print(f"--> [BaseExtractor] Extracao concluida: {total_registros} registros coletados.")
-
-        # Etapa 2: Auditoria
+        # 2. Auditoria
         df_auditado = self.add_audit_metadata(df=df_bruto)
 
-        # Etapa 3: Persistencia na Bronze
+        # 3. Persistencia no R2
         uri_arquivo = self.save_raw(df=df_auditado, target_key=target_key)
-        
-        print(f"--> [BaseExtractor] Ingestao finalizada com sucesso: {uri_arquivo}")
+        print(f"--> [BaseExtractor] Arquivo salvo no R2: {uri_arquivo}")
+
+        # 4. Catalogacao no MotherDuck (bronze.<schema>.<tabela>)
+        self.catalog_bronze(
+            schema_name=schema_name,
+            target_key=target_key,
+            criar_como_tabela=criar_como_tabela_fisica
+        )
+
+        print(f"--> [BaseExtractor] Ingestao e catalogacao finalizadas com sucesso!")
         print(f"=======================================================\n")
 
         return uri_arquivo

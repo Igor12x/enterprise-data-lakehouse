@@ -61,9 +61,9 @@ class Settings:
         # MOTHERDUCK (DATA WAREHOUSE CLOUD)
         # -------------------------------------------------------------
         self.MOTHERDUCK_TOKEN = self._obter_valor("MOTHERDUCK_TOKEN")
-        self.MOTHERDUCK_DATABASE_BRONZE = "bronze"
-        self.MOTHERDUCK_DATABASE_PRATA = "prata"
-        self.MOTHERDUCK_DATABASE_OURO = "ouro"
+        self.MOTHERDUCK_DB_BRONZE = self._obter_valor("MOTHERDUCK_DB_BRONZE", valor_padrao="bronze")
+        self.MOTHERDUCK_DB_PRATA = self._obter_valor("MOTHERDUCK_DB_PRATA", valor_padrao="prata")
+        self.MOTHERDUCK_DB_OURO = self._obter_valor("MOTHERDUCK_DB_OURO", valor_padrao="ouro")
 
         # 4. Validacao defensiva (Fail-Fast)
         self._validar_credenciais_obrigatorias()
