@@ -18,9 +18,11 @@ class AdlsDatabricksConnector:
     """
     Conector responsavel por gravar dados na camada Bronze em formato Delta Lake
     no Azure Data Lake (ADLS Gen2) e consultar o catalogo SQL do Databricks.
-    Possui dois metodos de entrada para a Bronze:
-      1. write_delta_bronze(): Recebe um DataFrame do Pandas e converte para Spark/Delta.
-      2. write_parquet_direto_bronze(): Lê um arquivo .parquet diretamente no Spark sem passar pelo Pandas.
+    Possui tres metodos de entrada para a Bronze:
+      1. write_delta_bronze(): Metodo tradicional via DataFrame do Pandas -> Spark/Delta.
+      2. write_parquet_direto_bronze(): Metodo tradicional que lê um arquivo .parquet local direto no Spark.
+      3. write_parquet_landing_brasil_bronze(): Opcao dedicada para fontes que exigem IP no Brasil
+         (lê o arquivo .parquet previamente sincronizado na Landing Zone abfss:// do ADLS Gen2).
     """
 
     def __init__(self) -> None:
@@ -355,29 +357,66 @@ class AdlsDatabricksConnector:
         modo_carga: str = "full"
     ) -> str:
         """
-        OPCAO 2 (Leitura direta de .parquet sem Pandas):
-        Lê um arquivo .parquet diretamente pelo motor do Spark (seja de um caminho local ou
-        diretamente da Landing Zone abfss:// no Azure ADLS Gen2), adiciona as colunas de
+        OPCAO 2 (Metodo tradicional de leitura direta de .parquet local sem Pandas):
+        Lê um arquivo .parquet local diretamente pelo motor do Spark, adiciona as colunas de
         auditoria (_ingestion_at e _source_name) e grava na Bronze sem converter para Pandas.
         """
         if caminho_arquivo_parquet is None or str(caminho_arquivo_parquet).strip() == "":
             raise ValueError("[Conector] O caminho do arquivo .parquet nao pode ser vazio.")
 
-        caminho_texto = str(caminho_arquivo_parquet).strip()
+        arquivo_fisico = Path(caminho_arquivo_parquet).resolve()
+        if arquivo_fisico.exists() is False:
+            raise FileNotFoundError(
+                f"[Conector] O arquivo .parquet nao foi encontrado em: {arquivo_fisico}"
+            )
+
         spark = self.obter_sessao_spark()
+        uri_arquivo_local = arquivo_fisico.as_uri()
 
-        if caminho_texto.startswith("abfss://") is True:
-            uri_leitura_spark = caminho_texto
-        else:
-            arquivo_fisico = Path(caminho_texto).resolve()
-            if arquivo_fisico.exists() is False:
-                raise FileNotFoundError(
-                    f"[Conector] O arquivo .parquet nao foi encontrado em: {arquivo_fisico}"
-                )
-            uri_leitura_spark = arquivo_fisico.as_uri()
+        print(f"--> [Bronze via Parquet Direto] Lendo arquivo nativamente no Spark: {uri_arquivo_local}")
+        dataframe_spark_bruto = spark.read.parquet(uri_arquivo_local)
 
-        print(f"--> [Bronze via Parquet Direto] Lendo arquivo nativamente no Spark: {uri_leitura_spark}")
-        dataframe_spark_bruto = spark.read.parquet(uri_leitura_spark)
+        timestamp_atual_utc = datetime.now(timezone.utc).isoformat()
+        dataframe_com_data = dataframe_spark_bruto.withColumn(
+            "_ingestion_at",
+            F.lit(timestamp_atual_utc)
+        )
+        dataframe_spark_auditado = dataframe_com_data.withColumn(
+            "_source_name",
+            F.lit(str(source_name).strip())
+        )
+
+        uri_abfss = self._salvar_dataframe_spark_na_bronze(
+            dataframe_spark=dataframe_spark_auditado,
+            contrato_tabela=contrato_tabela,
+            modo_carga=modo_carga
+        )
+        return uri_abfss
+
+    def write_parquet_landing_brasil_bronze(
+        self,
+        uri_landing_abfss: str,
+        source_name: str,
+        contrato_tabela: TableContract,
+        modo_carga: str = "full"
+    ) -> str:
+        """
+        OPCAO 3 (Exclusiva para extracoes que exigem IP no Brasil via Landing Zone ADLS Gen2):
+        Lê o arquivo .parquet diretamente da Landing Zone (abfss://) no Azure ADLS Gen2 pelo Spark,
+        adiciona as colunas de auditoria (_ingestion_at e _source_name) e grava na camada Bronze.
+        """
+        if uri_landing_abfss is None or str(uri_landing_abfss).strip() == "":
+            raise ValueError("[Conector] A URI abfss:// da Landing Zone nao pode ser vazia.")
+
+        uri_limpa = str(uri_landing_abfss).strip()
+        if uri_limpa.startswith("abfss://") is False:
+            raise ValueError(
+                f"[Conector] A URI da Landing Zone deve iniciar com 'abfss://'. Recebido: {uri_limpa}"
+            )
+
+        spark = self.obter_sessao_spark()
+        print(f"--> [Bronze via Landing Zone IP Brasil] Lendo .parquet do ADLS no Spark: {uri_limpa}")
+        dataframe_spark_bruto = spark.read.parquet(uri_limpa)
 
         timestamp_atual_utc = datetime.now(timezone.utc).isoformat()
         dataframe_com_data = dataframe_spark_bruto.withColumn(

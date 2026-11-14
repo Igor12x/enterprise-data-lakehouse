@@ -179,17 +179,27 @@ class FlowAneel:
     def executar_tabela_bronze(
         self,
         chave_tabela: str = "aneel_gd_empreendimentos",
-        modo_carga: str = "full"
+        modo_carga: str = "full",
+        usar_landing_ip_brasil: bool = True
     ) -> str:
         """
-        Executa a extracao da unica tabela bruta da ANEEL para a camada Bronze
-        lendo o arquivo .parquet diretamente no Spark (sem converter para Pandas).
+        Executa a ingestao da tabela bruta da ANEEL para a camada Bronze.
+        Permite escolher entre:
+          - usar_landing_ip_brasil=True: Opcao para fontes que exigem IP no Brasil (lê da Landing Zone ADLS).
+          - usar_landing_ip_brasil=False: Metodo tradicional de download direto do .parquet local.
         """
         contrato_bronze = self.produto_gd.get_bronze_table(chave_tabela)
-        uri_gerada = self.extrator_aneel.run_parquet_direct(
-            contrato_tabela=contrato_bronze,
-            modo_carga=modo_carga
-        )
+
+        if usar_landing_ip_brasil is True:
+            uri_gerada = self.extrator_aneel.run_landing_brasil(
+                contrato_tabela=contrato_bronze,
+                modo_carga=modo_carga
+            )
+        else:
+            uri_gerada = self.extrator_aneel.run_parquet_direct(
+                contrato_tabela=contrato_bronze,
+                modo_carga=modo_carga
+            )
 
         if chave_tabela not in self.tabelas_concluidas:
             self.tabelas_concluidas.append(chave_tabela)

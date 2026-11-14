@@ -74,8 +74,19 @@ def test_base_extractor_validacao_arquivo_parquet_direto(tmp_path: Path):
     arquivo_valido.write_bytes(b"PAR1_CONTEUDO_PARQUET_SIMULADO")
     extrator._validate_parquet_file(str(arquivo_valido))
 
+
+def test_base_extractor_validacao_uri_landing_brasil():
+    """Valida a verificacao da opcao dedicada para fontes que exigem IP no Brasil (Landing Zone abfss://)."""
+    extrator = ExtratorValido("teste_landing_brasil")
+
+    with pytest.raises(ValueError):
+        extrator._validate_uri_landing_brasil("")
+
+    with pytest.raises(ValueError):
+        extrator._validate_uri_landing_brasil("/caminho/local/arquivo.parquet")
+
     uri_landing_abfss = (
         "abfss://portfolio-lakehouse-bronze@portfolioigordatalake.dfs.core.windows.net/"
         "landing/aneel_gd/empreendimento-geracao-distribuida.parquet"
     )
-    extrator._validate_parquet_file(uri_landing_abfss)
+    extrator._validate_uri_landing_brasil(uri_landing_abfss)
