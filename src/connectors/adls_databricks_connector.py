@@ -36,7 +36,9 @@ class AdlsDatabricksConnector:
     def obter_sessao_spark(self) -> SparkSession:
         """
         Metodo Getter (estilo Java/C#): Retorna a sessao ativa do Spark no Databricks.
-        Na primeira chamada, configura a chave de acesso ao Azure Data Lake.
+        Tenta definir a chave do ADLS na sessao (clusters Single User); caso o cluster esteja
+        em modo Shared/Standard (onde o Spark bloqueia 'fs.azure.account.key' via codigo com
+        CONFIG_NOT_AVAILABLE), utiliza a configuracao ja definida no Spark Config do Cluster.
         """
         if self._sessao_spark is None:
             sessao = SparkSession.builder.getOrCreate()
@@ -44,7 +46,13 @@ class AdlsDatabricksConnector:
             propriedade_autenticacao = (
                 f"fs.azure.account.key.{self.storage_account}.dfs.core.windows.net"
             )
-            sessao.conf.set(propriedade_autenticacao, self.storage_key)
+            try:
+                sessao.conf.set(propriedade_autenticacao, self.storage_key)
+            except Exception:
+                print(
+                    "--> [Conector] Cluster em modo Shared/Standard detectado: utilizando "
+                    "credencial ADLS configurada no Spark Config do Cluster."
+                )
 
             self._sessao_spark = sessao
 
