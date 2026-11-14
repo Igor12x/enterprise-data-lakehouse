@@ -1,3 +1,4 @@
+import os
 import subprocess
 from pathlib import Path
 from typing import Dict, List
@@ -131,6 +132,22 @@ class FlowAneel:
 
         return comando
 
+    def _obter_ambiente_execucao_dbt(self) -> Dict[str, str]:
+        """
+        Injeta automaticamente no subprocesso do dbt as credenciais de conexao
+        descobertas a partir do compute ativo (Serverless ou Cluster tradicional),
+        sem exigir configuracao manual por cluster.
+        """
+        ambiente_dbt = os.environ.copy()
+        credenciais_runtime = self.conector_lakehouse.obter_credenciais_runtime_dbt()
+
+        for chave_env, valor_descoberto in credenciais_runtime.items():
+            valor_atual = ambiente_dbt.get(chave_env, "").strip()
+            if valor_atual == "" and valor_descoberto != "":
+                ambiente_dbt[chave_env] = valor_descoberto
+
+        return ambiente_dbt
+
     def executar_modelo_dbt(self, nome_modelo_ou_pasta: str, modo_carga: str = "full") -> str:
         """
         Valida as dependencias da tabela, executa a transformacao SQL no dbt
@@ -139,13 +156,15 @@ class FlowAneel:
         if nome_modelo_ou_pasta in self.MAPA_DEPENDENCIAS:
             self.validar_dependencias_tabela(nome_tabela=nome_modelo_ou_pasta)
 
+        ambiente_dbt = self._obter_ambiente_execucao_dbt()
+
         comando_run = self.montar_comando_dbt(
             seletor_modelo=nome_modelo_ou_pasta,
             modo_carga=modo_carga
         )
 
         print(f"--> [dbt] Gerando tabela '{nome_modelo_ou_pasta}': {' '.join(comando_run)}")
-        resultado_run = subprocess.run(comando_run, check=False)
+        resultado_run = subprocess.run(comando_run, env=ambiente_dbt, check=False)
 
         if resultado_run.returncode != 0:
             raise RuntimeError(
@@ -164,7 +183,7 @@ class FlowAneel:
         ]
 
         print(f"--> [dbt] Testando qualidade de '{nome_modelo_ou_pasta}': {' '.join(comando_test)}")
-        resultado_test = subprocess.run(comando_test, check=False)
+        resultado_test = subprocess.run(comando_test, env=ambiente_dbt, check=False)
 
         if resultado_test.returncode != 0:
             raise RuntimeError(

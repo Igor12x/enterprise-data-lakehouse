@@ -45,6 +45,109 @@ class AdlsDatabricksConnector:
 
         return self._sessao_spark
 
+    def obter_credenciais_runtime_dbt(self) -> dict:
+        """
+        Descobre automaticamente em tempo de execucao o host, o http_path e o token
+        do compute ativo no Databricks (seja Serverless ou um Cluster tradicional barato),
+        sem precisar fixar DATABRICKS_HOST, DATABRICKS_HTTP_PATH ou DATABRICKS_TOKEN no projeto.
+        """
+        host_descoberto = ""
+        http_path_descoberto = ""
+        token_descoberto = ""
+
+        # 1. Tenta descobrir Host, Token e Warehouse via Databricks SDK nativo do ambiente
+        try:
+            from databricks.sdk import WorkspaceClient
+
+            cliente_ws = WorkspaceClient()
+
+            if cliente_ws.config.host is not None:
+                host_limpo = str(cliente_ws.config.host).replace("https://", "").replace("http://", "").strip("/")
+                host_descoberto = host_limpo
+
+            dados_autenticacao = cliente_ws.config.authenticate()
+            if callable(dados_autenticacao) is True:
+                cabecalhos_auth = dados_autenticacao()
+            else:
+                cabecalhos_auth = dados_autenticacao
+
+            if isinstance(cabecalhos_auth, dict) is True and "Authorization" in cabecalhos_auth:
+                valor_auth = str(cabecalhos_auth["Authorization"]).strip()
+                if valor_auth.startswith("Bearer ") is True:
+                    token_descoberto = valor_auth.replace("Bearer ", "", 1).strip()
+                else:
+                    token_descoberto = valor_auth
+            elif cliente_ws.config.token is not None:
+                token_descoberto = str(cliente_ws.config.token).strip()
+        except Exception:
+            pass
+
+        spark = self.obter_sessao_spark()
+
+        # 2. Fallback de Host via configuracao da sessao Spark
+        if host_descoberto == "":
+            try:
+                url_workspace = spark.conf.get("spark.databricks.workspaceUrl")
+                if url_workspace is not None:
+                    host_descoberto = str(url_workspace).replace("https://", "").replace("http://", "").strip("/")
+            except Exception:
+                pass
+
+        # 3. Fallback de Token via contexto do Notebook (para clusters classicos)
+        if token_descoberto == "":
+            try:
+                from pyspark.dbutils import DBUtils
+
+                utilitario_db = DBUtils(spark)
+                contexto_nb = utilitario_db.notebook.entry_point.getDbutils().notebook().getContext()
+                token_contexto = contexto_nb.apiToken().get()
+                if token_contexto is not None:
+                    token_descoberto = str(token_contexto).strip()
+            except Exception:
+                pass
+
+        # 4. Descoberta automatica do HTTP_PATH:
+        #    4a. Se estiver rodando em um Cluster tradicional, monta o caminho do proprio cluster
+        try:
+            cluster_id = spark.conf.get("spark.databricks.clusterUsageTags.clusterId")
+            try:
+                org_id = spark.conf.get("spark.databricks.clusterUsageTags.clusterOwnerOrgId")
+            except Exception:
+                org_id = spark.conf.get("spark.databricks.clusterUsageTags.orgId")
+
+            if cluster_id is not None and org_id is not None:
+                cluster_limpo = str(cluster_id).strip()
+                org_limpo = str(org_id).strip()
+                if cluster_limpo != "" and org_limpo != "":
+                    http_path_descoberto = f"/sql/protocolv1/o/{org_limpo}/{cluster_limpo}"
+        except Exception:
+            pass
+
+        #    4b. Se estiver rodando em Serverless, localiza automaticamente o SQL Warehouse disponivel
+        if http_path_descoberto == "":
+            try:
+                from databricks.sdk import WorkspaceClient
+
+                cliente_ws = WorkspaceClient()
+                lista_warehouses = list(cliente_ws.warehouses.list())
+                if len(lista_warehouses) > 0:
+                    warehouse_ativo = lista_warehouses[0]
+                    http_path_descoberto = f"/sql/1.0/warehouses/{warehouse_ativo.id}"
+            except Exception:
+                pass
+
+        print(
+            f"--> [Conector] Compute auto-descoberto para o dbt | "
+            f"Host: {host_descoberto} | HTTP Path: {http_path_descoberto}"
+        )
+
+        credenciais = {
+            "DATABRICKS_HOST": host_descoberto,
+            "DATABRICKS_HTTP_PATH": http_path_descoberto,
+            "DATABRICKS_TOKEN": token_descoberto
+        }
+        return credenciais
+
     def validar_modo_carga(self, modo_carga: str) -> str:
         """
         Valida se o modo de atualizacao escolhido e 'full' (substituicao total)
