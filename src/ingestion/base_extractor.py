@@ -1,22 +1,21 @@
 import abc
+import os
 from datetime import datetime, timezone
+from pathlib import Path
 import pandas as pd
-
-from typing import Optional
-from src.connectors.motherduck_connector import MotherDuckConnector
-from src.config import settings
-from src.connectors.r2_connector import R2Connector
+from src.catalog_dictionary import TableContract
+from src.connectors.adls_databricks_connector import AdlsDatabricksConnector
 
 
 class BaseExtractor(abc.ABC):
     """
     Classe base abstrata para todos os extratores da plataforma Lakehouse.
-    Aplica os padroes Template Method e Strategy Pattern para padronizar
-    a ingestao de dados, injecao de metadados de auditoria e persistencia na camada Bronze.
+    Oferece dois caminhos de ingestao para a camada Bronze:
+      1. Caminho via Pandas DataFrame: run() -> extract() -> add_audit_metadata() -> save_and_catalog_bronze()
+      2. Caminho Direto via Arquivo .parquet (sem Pandas): run_parquet_direct() -> extract_parquet_file() -> save_parquet_direct_to_bronze()
     """
 
-    def __init__(self, source_name: str):
-        # 1. Validacao do identificador da fonte de dados
+    def __init__(self, source_name: str) -> None:
         if source_name is None:
             raise ValueError("[BaseExtractor] O parametro 'source_name' nao pode ser nulo.")
 
@@ -24,139 +23,195 @@ class BaseExtractor(abc.ABC):
         if texto_limpo == "":
             raise ValueError("[BaseExtractor] O parametro 'source_name' nao pode ser vazio.")
 
-        self.source_name = texto_limpo
-
-        # 2. Inicializacao do conector de armazenamento para a camada Bronze
-        self.r2_connector = R2Connector()
-        # Inicializacao do conector do MotherDuck
-        self.motherduck_connector = MotherDuckConnector()
+        self.source_name: str = texto_limpo
+        self.lakehouse_connector = AdlsDatabricksConnector()
 
     @abc.abstractmethod
     def extract(self) -> pd.DataFrame:
         """
-        Metodo abstrato que OBRIGA todas as classes filhas (APIs, Scrapers, Bancos)
-        a implementarem sua propria logica de extracao e retornarem um DataFrame Pandas.
+        Metodo abstrato que retorna os dados extraidos como um DataFrame do Pandas.
         """
         pass
 
-    def _validate_dataframe(self, df: pd.DataFrame, contexto_operacao: str) -> None:
+    def extract_parquet_file(self) -> str:
         """
-        Metodo privado centralizador de validacao (Principio DRY).
-        Garante em um unico ponto que DataFrames nulos ou vazios sejam
-        bloqueados antes de qualquer processamento ou gravacao.
+        Metodo para fontes que ja fornecem arquivo .parquet pronto (ex: ANEEL).
+        Baixa o arquivo .parquet no disco e retorna o caminho dele, sem converter para Pandas.
         """
-        if df is None:
+        raise NotImplementedError(
+            f"[BaseExtractor] O extrator '{self.source_name}' nao implementou 'extract_parquet_file()'."
+        )
+
+    def _validate_dataframe(
+        self,
+        dataframe_alvo: pd.DataFrame,
+        contexto_operacao: str
+    ) -> None:
+        """
+        Valida se o DataFrame do Pandas existe e possui linhas antes de prosseguir.
+        """
+        if dataframe_alvo is None:
             raise ValueError(
                 f"[BaseExtractor] O DataFrame fornecido para '{contexto_operacao}' nao pode ser nulo."
             )
 
-        if df.empty:
+        if dataframe_alvo.empty is True:
             raise ValueError(
                 f"[BaseExtractor] O DataFrame fornecido para '{contexto_operacao}' esta vazio (0 registros)."
             )
 
-    def add_audit_metadata(self, df: pd.DataFrame) -> pd.DataFrame:
+    def _validate_parquet_file(self, caminho_arquivo_parquet: str) -> None:
         """
-        Adiciona metadados corporativos de linhagem e rastreabilidade:
-        - _ingestion_at: Timestamp UTC exato da extracao.
-        - _source_name: Identificador semantico da origem do dado.
+        Valida se o arquivo .parquet baixado existe no disco e nao esta vazio (0 bytes).
         """
-        # Validacao centralizada
-        self._validate_dataframe(df, contexto_operacao="injecao de metadados")
+        if caminho_arquivo_parquet is None or str(caminho_arquivo_parquet).strip() == "":
+            raise ValueError("[BaseExtractor] O caminho do arquivo .parquet retornado e vazio.")
 
-        # Cria uma copia defensiva para evitar alteracoes colaterais indesejadas
-        df_enriquecido = df.copy()
+        arquivo = Path(caminho_arquivo_parquet)
+        if arquivo.exists() is False:
+            raise FileNotFoundError(
+                f"[BaseExtractor] Arquivo .parquet nao encontrado em: {caminho_arquivo_parquet}"
+            )
 
-        # Injeta colunas de governanca no padrao Medallion Bronze
-        timestamp_atual = datetime.now(timezone.utc).isoformat()
-        df_enriquecido["_ingestion_at"] = timestamp_atual
-        df_enriquecido["_source_name"] = self.source_name
+        if arquivo.stat().st_size == 0:
+            raise ValueError(
+                f"[BaseExtractor] O arquivo .parquet baixado esta vazio (0 bytes): {caminho_arquivo_parquet}"
+            )
 
-        return df_enriquecido
-
-    def save_raw(self, df: pd.DataFrame, target_key: str) -> str:
+    def add_audit_metadata(self, dataframe_bruto: pd.DataFrame) -> pd.DataFrame:
         """
-        Persiste o DataFrame tratado com metadados diretamente no bucket Bronze
-        do Cloudflare R2 utilizando compressao Parquet.
-
-        Parametros:
-            df (pd.DataFrame): Dados com colunas de negocio e auditoria.
-            target_key (str): Caminho semantico no Lakehouse (ex: 'aneel/gd/ano=2026/dados.parquet').
-
-        Retorno:
-            str: URI padronizada do arquivo gravado no R2.
+        Adiciona colunas de auditoria (_ingestion_at e _source_name) ao DataFrame do Pandas.
         """
-        # Validacao centralizada
-        self._validate_dataframe(df, contexto_operacao="gravacao na Bronze")
-
-        if target_key is None:
-            raise ValueError("[BaseExtractor] A chave de destino 'target_key' deve ser informada.")
-
-        caminho_limpo = str(target_key).strip()
-        if caminho_limpo == "":
-            raise ValueError("[BaseExtractor] A chave de destino 'target_key' nao pode ser vazia.")
-
-        print(f"--> [BaseExtractor] Iniciando persistencia na camada Bronze: {caminho_limpo}")
-        
-        uri_final = self.r2_connector.upload_parquet(
-            df=df,
-            target_key=caminho_limpo
+        self._validate_dataframe(
+            dataframe_alvo=dataframe_bruto,
+            contexto_operacao="injecao de metadados de auditoria"
         )
 
-        return uri_final
-    
-    def catalog_bronze(
+        dataframe_enriquecido = dataframe_bruto.copy()
+        timestamp_atual_utc = datetime.now(timezone.utc).isoformat()
+
+        dataframe_enriquecido["_ingestion_at"] = timestamp_atual_utc
+        dataframe_enriquecido["_source_name"] = self.source_name
+
+        return dataframe_enriquecido
+
+    def save_and_catalog_bronze(
         self,
-        schema_name: str,
-        target_key: str,
-        criar_como_tabela: bool = False
-    ) -> None:
+        dataframe_auditado: pd.DataFrame,
+        contrato_tabela: TableContract,
+        modo_carga: str = "full"
+    ) -> str:
         """
-        Registra o objeto no MotherDuck apontando diretamente para o arquivo no R2.
-        Ex: s3://lakehouse-bronze/aneel/gd/empreendimentos_gd.parquet
+        Persiste o DataFrame do Pandas na camada Bronze respeitando o modo 'full' ou 'incremental'.
         """
-        caminho_s3_direto = f"s3://{settings.R2_BUCKET_BRONZE}/{target_key}"
-
-        self.motherduck_connector.registrar_tabela_bronze(
-            schema_name=schema_name,
-            nome_tabela=self.source_name,
-            origem_s3_padrao=caminho_s3_direto,
-            criar_como_tabela_fisica=criar_como_tabela
+        self._validate_dataframe(
+            dataframe_alvo=dataframe_auditado,
+            contexto_operacao="gravacao Delta na Camada Bronze"
         )
+
+        if contrato_tabela is None:
+            raise ValueError("[BaseExtractor] O parametro 'contrato_tabela' nao pode ser nulo.")
+
+        uri_final = self.lakehouse_connector.write_delta_bronze(
+            df_pandas=dataframe_auditado,
+            contrato_tabela=contrato_tabela,
+            modo_carga=modo_carga
+        )
+        return uri_final
+
+    def save_parquet_direct_to_bronze(
+        self,
+        caminho_arquivo_parquet: str,
+        contrato_tabela: TableContract,
+        modo_carga: str = "full"
+    ) -> str:
+        """
+        Envia o arquivo .parquet diretamente para o Spark gravar na Bronze, sem converter para Pandas.
+        """
+        self._validate_parquet_file(caminho_arquivo_parquet=caminho_arquivo_parquet)
+
+        if contrato_tabela is None:
+            raise ValueError("[BaseExtractor] O parametro 'contrato_tabela' nao pode ser nulo.")
+
+        uri_final = self.lakehouse_connector.write_parquet_direto_bronze(
+            caminho_arquivo_parquet=caminho_arquivo_parquet,
+            source_name=self.source_name,
+            contrato_tabela=contrato_tabela,
+            modo_carga=modo_carga
+        )
+        return uri_final
 
     def run(
         self,
-        target_key: str,
-        schema_name: str = "gd",
-        criar_como_tabela_fisica: bool = False
+        contrato_tabela: TableContract,
+        modo_carga: str = "full"
     ) -> str:
         """
-        Template Method: Ingestao completa na camada Bronze.
+        OPCAO 1 (Fluxo via Pandas DataFrame):
+        Executa extracao para Pandas, injeta auditoria e grava Delta na Bronze.
         """
-        print(f"\n=======================================================")
-        print(f"   INICIANDO PIPELINE DE INGESTAO: {self.source_name.upper()}   ")
-        print(f"=======================================================")
+        modo_validado = self.lakehouse_connector.validar_modo_carga(modo_carga=modo_carga)
 
-        # 1. Extracao
-        df_bruto = self.extract()
-        self._validate_dataframe(df_bruto, contexto_operacao=f"extracao de {self.source_name}")
-        print(f"--> [BaseExtractor] Extracao concluida: {len(df_bruto):,} registros coletados.")
+        print("\n=======================================================")
+        print(f"   INICIANDO INGESTAO BRONZE (VIA PANDAS): {contrato_tabela.table_name.upper()}   ")
+        print(f"   Destino: {contrato_tabela.full_table_identifier}   ")
+        print(f"   Modo de Carga: {modo_validado.upper()}   ")
+        print("=======================================================")
 
-        # 2. Auditoria
-        df_auditado = self.add_audit_metadata(df=df_bruto)
+        dataframe_bruto = self.extract()
+        self._validate_dataframe(
+            dataframe_alvo=dataframe_bruto,
+            contexto_operacao=f"extracao da fonte {self.source_name}"
+        )
+        print(f"--> [BaseExtractor] Extracao concluida: {len(dataframe_bruto):,} registros coletados.")
 
-        # 3. Persistencia no R2
-        uri_arquivo = self.save_raw(df=df_auditado, target_key=target_key)
-        print(f"--> [BaseExtractor] Arquivo salvo no R2: {uri_arquivo}")
+        dataframe_auditado = self.add_audit_metadata(dataframe_bruto=dataframe_bruto)
 
-        # 4. Catalogacao no MotherDuck (bronze.<schema>.<tabela>)
-        self.catalog_bronze(
-            schema_name=schema_name,
-            target_key=target_key,
-            criar_como_tabela=criar_como_tabela_fisica
+        uri_persistida = self.save_and_catalog_bronze(
+            dataframe_auditado=dataframe_auditado,
+            contrato_tabela=contrato_tabela,
+            modo_carga=modo_validado
         )
 
-        print(f"--> [BaseExtractor] Ingestao e catalogacao finalizadas com sucesso!")
-        print(f"=======================================================\n")
+        print("--> [BaseExtractor] Ingestao Bronze (via Pandas) finalizada com sucesso!")
+        print(f"--> [BaseExtractor] Caminho ADLS: {uri_persistida}")
+        print("=======================================================\n")
 
-        return uri_arquivo
+        return uri_persistida
+
+    def run_parquet_direct(
+        self,
+        contrato_tabela: TableContract,
+        modo_carga: str = "full"
+    ) -> str:
+        """
+        OPCAO 2 (Fluxo Direto de Arquivo .parquet sem Pandas):
+        Baixa o arquivo .parquet bruto e entrega direto ao Spark para gravar na Bronze.
+        """
+        modo_validado = self.lakehouse_connector.validar_modo_carga(modo_carga=modo_carga)
+
+        print("\n=======================================================")
+        print(f"   INICIANDO INGESTAO BRONZE (PARQUET DIRETO): {contrato_tabela.table_name.upper()}   ")
+        print(f"   Destino: {contrato_tabela.full_table_identifier}   ")
+        print(f"   Modo de Carga: {modo_validado.upper()}   ")
+        print("=======================================================")
+
+        caminho_parquet_temp = self.extract_parquet_file()
+        self._validate_parquet_file(caminho_arquivo_parquet=caminho_parquet_temp)
+
+        try:
+            uri_persistida = self.save_parquet_direct_to_bronze(
+                caminho_arquivo_parquet=caminho_parquet_temp,
+                contrato_tabela=contrato_tabela,
+                modo_carga=modo_validado
+            )
+        finally:
+            if os.path.exists(caminho_parquet_temp) is True:
+                os.remove(caminho_parquet_temp)
+                print(f"--> [BaseExtractor] Arquivo temporario removido: {caminho_parquet_temp}")
+
+        print("--> [BaseExtractor] Ingestao Bronze (Parquet Direto) finalizada com sucesso!")
+        print(f"--> [BaseExtractor] Caminho ADLS: {uri_persistida}")
+        print("=======================================================\n")
+
+        return uri_persistida

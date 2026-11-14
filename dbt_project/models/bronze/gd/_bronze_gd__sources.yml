@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: bronze_gd
+    database: hive_metastore
+    schema: gd
+    description: 'Camada Bronze ingerida via Python (AneelGdExtractor) em Delta Lake'
+    tables:
+      - name: aneel_gd_empreendimentos
+        description: 'Tabela bruta oficial de empreendimentos de Geracao Distribuida da ANEEL'
+        columns:
+          - name: CodEmpreendimento
+            tests:
+              - not_null

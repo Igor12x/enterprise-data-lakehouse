@@ -1,0 +1,22 @@
+version: 2
+models:
+  - name: dim_enquadramento
+    columns:
+      - name: sk_enquadramento
+        tests: [unique, not_null]
+  - name: dim_titular
+    columns:
+      - name: sk_titular
+        tests: [unique, not_null]
+  - name: dim_tecnologia
+    columns:
+      - name: sk_tecnologia
+        tests: [unique, not_null]
+  - name: dim_modalidade
+    columns:
+      - name: sk_modalidade
+        tests: [unique, not_null]
+  - name: fato_empreendimentos
+    columns:
+      - name: sk_empreendimento
+        tests: [unique, not_null]

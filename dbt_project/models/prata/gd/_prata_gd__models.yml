@@ -1,0 +1,14 @@
+version: 2
+models:
+  - name: dim_distribuidoras
+    columns:
+      - name: cnpj_distribuidora
+        tests: [unique, not_null]
+  - name: dim_classes_consumo
+    columns:
+      - name: cod_classe_consumo
+        tests: [unique, not_null]
+  - name: fato_empreendimentos_prata
+    columns:
+      - name: cod_empreendimento
+        tests: [unique, not_null]
