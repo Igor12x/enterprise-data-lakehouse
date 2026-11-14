@@ -1,0 +1,28 @@
+name: 'enterprise_data_lakehouse'
+version: '1.0.0'
+config-version: 2
+
+profile: 'lakehouse_databricks'
+
+model-paths: ["models"]
+
+models:
+  enterprise_data_lakehouse:
+    prata:
+      tempo:
+        +schema: tempo
+        +file_format: delta
+        +location_root: "abfss://portfolio-lakehouse-silver@portfolioigordatalake.dfs.core.windows.net/corporativo/tempo"
+      localidade:
+        +schema: localidade
+        +file_format: delta
+        +location_root: "abfss://portfolio-lakehouse-silver@portfolioigordatalake.dfs.core.windows.net/corporativo/localidade"
+      gd:
+        +schema: gd
+        +file_format: delta
+        +location_root: "abfss://portfolio-lakehouse-silver@portfolioigordatalake.dfs.core.windows.net/aneel/gd"
+    ouro:
+      gd:
+        +schema: gd
+        +file_format: delta
+        +location_root: "abfss://portfolio-lakehouse-gold@portfolioigordatalake.dfs.core.windows.net/aneel/gd"

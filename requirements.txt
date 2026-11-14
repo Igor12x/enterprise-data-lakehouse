@@ -1,0 +1,19 @@
+# Extracao e Requisicoes HTTP
+requests>=2.31.0
+
+# Processamento e Serializacao Colunar
+pandas>=2.2.0
+pyarrow>=15.0.0
+
+# Variaveis de Ambiente e Seguranca
+python-decouple>=3.8
+
+# Motor Spark (tipagem local e execucao no cluster)
+pyspark>=3.5.0
+
+# Transformacao Declarativa e Governanca SQL
+dbt-core>=1.8.0
+dbt-databricks>=1.8.0
+
+# Testes Unitarios Locais
+pytest>=8.0.0

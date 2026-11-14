@@ -1,0 +1,6 @@
+version: 2
+models:
+  - name: dim_calendario
+    columns:
+      - name: id_data
+        tests: [unique, not_null]

@@ -1,8 +1,9 @@
 .env
+.env.local
 __pycache__/
 *.pyc
+.pytest_cache/
 .vscode/
-# Scripts utilitarios e testes ad-hoc locais
-setup_project.py
-test_motherduck_connection.py
-test_r2_connection.py
+dbt_project/target/
+dbt_project/logs/
+dbt_project/dbt_packages/
