@@ -9,20 +9,22 @@ model-paths: ["models"]
 models:
   enterprise_data_lakehouse:
     prata:
+      +database: "portfolio-lakehouse-prata"
       tempo:
         +schema: tempo
         +file_format: delta
-        +location_root: "abfss://portfolio-lakehouse-silver@portfolioigordatalake.dfs.core.windows.net/corporativo/tempo"
+        +location_root: "abfss://portfolio-lakehouse-prata@portfolioigordatalake.dfs.core.windows.net/corporativo/tempo"
       localidade:
         +schema: localidade
         +file_format: delta
-        +location_root: "abfss://portfolio-lakehouse-silver@portfolioigordatalake.dfs.core.windows.net/corporativo/localidade"
+        +location_root: "abfss://portfolio-lakehouse-prata@portfolioigordatalake.dfs.core.windows.net/corporativo/localidade"
       gd:
         +schema: gd
         +file_format: delta
-        +location_root: "abfss://portfolio-lakehouse-silver@portfolioigordatalake.dfs.core.windows.net/aneel/gd"
+        +location_root: "abfss://portfolio-lakehouse-prata@portfolioigordatalake.dfs.core.windows.net/aneel/gd"
     ouro:
+      +database: "portfolio-lakehouse-ouro"
       gd:
         +schema: gd
         +file_format: delta
-        +location_root: "abfss://portfolio-lakehouse-gold@portfolioigordatalake.dfs.core.windows.net/aneel/gd"
+        +location_root: "abfss://portfolio-lakehouse-ouro@portfolioigordatalake.dfs.core.windows.net/aneel/gd"

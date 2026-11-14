@@ -39,10 +39,22 @@ class Settings:
         else:
             self._leitor = None
 
-        # 3. Configuracoes de tempo limite e nome do Cofre de Segredos no Databricks
+        # 3. Configuracoes de tempo limite, catalogos Unity Catalog (1 por camada) e Key Vault
         self.TIMEOUT_CONEXAO_SEGUNDOS = 60
         self.DATABRICKS_SECRET_SCOPE = "kv-portfolio-scope"
         self.DATABRICKS_SECRET_KEY = "adls-storage-key"
+        self.DATABRICKS_CATALOG_BRONZE = self._obter_valor(
+            nome_chave="DATABRICKS_CATALOG_BRONZE",
+            valor_padrao="portfolio-lakehouse-bronze"
+        )
+        self.DATABRICKS_CATALOG_PRATA = self._obter_valor(
+            nome_chave="DATABRICKS_CATALOG_PRATA",
+            valor_padrao="portfolio-lakehouse-prata"
+        )
+        self.DATABRICKS_CATALOG_OURO = self._obter_valor(
+            nome_chave="DATABRICKS_CATALOG_OURO",
+            valor_padrao="portfolio-lakehouse-ouro"
+        )
 
         # 4. Credenciais do Azure Data Lake Storage Gen2 (ADLS Gen2)
         self.AZURE_STORAGE_ACCOUNT_NAME = self._obter_valor(

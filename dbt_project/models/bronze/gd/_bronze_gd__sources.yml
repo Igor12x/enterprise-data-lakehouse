@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: bronze_gd
-    database: hive_metastore
+    database: portfolio-lakehouse-bronze
     schema: gd
     description: 'Camada Bronze ingerida via Python (AneelGdExtractor) em Delta Lake'
     tables:

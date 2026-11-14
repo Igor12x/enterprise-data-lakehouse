@@ -36,25 +36,12 @@ class AdlsDatabricksConnector:
     def obter_sessao_spark(self) -> SparkSession:
         """
         Metodo Getter (estilo Java/C#): Retorna a sessao ativa do Spark no Databricks.
-        Tenta definir a chave do ADLS na sessao (clusters Single User); caso o cluster esteja
-        em modo Shared/Standard (onde o Spark bloqueia 'fs.azure.account.key' via codigo com
-        CONFIG_NOT_AVAILABLE), utiliza a configuracao ja definida no Spark Config do Cluster.
+        A autenticacao com os containers do Azure ADLS Gen2 (abfss://) e gerenciada
+        nativamente pelas External Locations do Unity Catalog (compativel com Serverless
+        e clusters Shared/Standard), sem injetar chaves via spark.conf.set.
         """
         if self._sessao_spark is None:
-            sessao = SparkSession.builder.getOrCreate()
-
-            propriedade_autenticacao = (
-                f"fs.azure.account.key.{self.storage_account}.dfs.core.windows.net"
-            )
-            try:
-                sessao.conf.set(propriedade_autenticacao, self.storage_key)
-            except Exception:
-                print(
-                    "--> [Conector] Cluster em modo Shared/Standard detectado: utilizando "
-                    "credencial ADLS configurada no Spark Config do Cluster."
-                )
-
-            self._sessao_spark = sessao
+            self._sessao_spark = SparkSession.builder.getOrCreate()
 
         return self._sessao_spark
 
@@ -78,33 +65,62 @@ class AdlsDatabricksConnector:
                 f"Escolha 'full' ou 'incremental'."
             )
 
+    def _formatar_identificador_sql(self, identificador: str) -> str:
+        """
+        Envolve cada parte do identificador (catalogo.schema.tabela) com crases (`)
+        para suportar hifens no Unity Catalog (ex: `portfolio-lakehouse-bronze`.`gd`.`tabela`).
+        """
+        partes = str(identificador).split(".")
+        partes_formatadas = []
+
+        for parte in partes:
+            parte_limpa = parte.strip().strip("`")
+            partes_formatadas.append(f"`{parte_limpa}`")
+
+        return ".".join(partes_formatadas)
+
     def verificar_se_tabela_existe(self, identificador_completo_sql: str) -> bool:
         """
-        Consulta o catalogo do Databricks (hive_metastore) para saber se uma tabela ja foi criada.
+        Consulta o Unity Catalog do Databricks para saber se uma tabela ja foi criada.
         """
         spark = self.obter_sessao_spark()
-        tabela_existe = spark.catalog.tableExists(identificador_completo_sql)
+        identificador_formatado = self._formatar_identificador_sql(identificador_completo_sql)
+        tabela_existe = spark.catalog.tableExists(identificador_formatado)
         return tabela_existe
 
-    def garantir_schema_catalogo(self, schema_name: str) -> None:
+    def garantir_schema_catalogo(self, schema_name: str, catalog_name: str = None) -> None:
         """
-        Cria o banco/schema (ex: gd, localidade, tempo) no Databricks caso ainda nao exista.
+        Cria o banco/schema (ex: gd, localidade, tempo) no Unity Catalog caso ainda nao exista.
         """
+        if catalog_name is not None and str(catalog_name).strip() != "":
+            catalogo_alvo = str(catalog_name).strip()
+        else:
+            catalogo_alvo = settings.DATABRICKS_CATALOG_BRONZE
+
         spark = self.obter_sessao_spark()
-        comando_sql = f"CREATE SCHEMA IF NOT EXISTS hive_metastore.{schema_name};"
+        identificador_schema = self._formatar_identificador_sql(f"{catalogo_alvo}.{schema_name}")
+        comando_sql = f"CREATE SCHEMA IF NOT EXISTS {identificador_schema};"
         spark.sql(comando_sql)
 
     def registrar_tabela_catalogo(
         self,
         schema_name: str,
         table_name: str,
-        uri_abfss: str
+        uri_abfss: str,
+        catalog_name: str = None
     ) -> None:
         """
         Vincula a pasta fisica do Azure Data Lake a uma tabela SQL visivel no Databricks e Power BI.
         """
+        if catalog_name is not None and str(catalog_name).strip() != "":
+            catalogo_alvo = str(catalog_name).strip()
+        else:
+            catalogo_alvo = settings.DATABRICKS_CATALOG_BRONZE
+
         spark = self.obter_sessao_spark()
-        identificador_tabela = f"hive_metastore.{schema_name}.{table_name}"
+        identificador_tabela = self._formatar_identificador_sql(
+            f"{catalogo_alvo}.{schema_name}.{table_name}"
+        )
 
         comando_sql = f"""
         CREATE TABLE IF NOT EXISTS {identificador_tabela}
@@ -132,7 +148,10 @@ class AdlsDatabricksConnector:
         )
 
         spark = self.obter_sessao_spark()
-        self.garantir_schema_catalogo(schema_name=contrato_tabela.schema_name)
+        self.garantir_schema_catalogo(
+            schema_name=contrato_tabela.schema_name,
+            catalog_name=contrato_tabela.catalog_name
+        )
         tabela_ja_existe = self.verificar_se_tabela_existe(
             identificador_completo_sql=contrato_tabela.full_table_identifier
         )
@@ -149,18 +168,22 @@ class AdlsDatabricksConnector:
             self.registrar_tabela_catalogo(
                 schema_name=contrato_tabela.schema_name,
                 table_name=contrato_tabela.table_name,
-                uri_abfss=uri_abfss
+                uri_abfss=uri_abfss,
+                catalog_name=contrato_tabela.catalog_name
             )
         else:
             print(f"--> [Bronze] Modo INCREMENTAL: Executando MERGE em {contrato_tabela.full_table_identifier}")
             nome_view_temp = f"view_temp_bronze_{contrato_tabela.table_name}"
             coluna_pk = contrato_tabela.primary_key
+            identificador_destino_sql = self._formatar_identificador_sql(
+                contrato_tabela.full_table_identifier
+            )
 
             dataframe_sem_duplicatas = dataframe_spark.dropDuplicates([coluna_pk])
             dataframe_sem_duplicatas.createOrReplaceTempView(nome_view_temp)
 
             sql_merge = f"""
-            MERGE INTO {contrato_tabela.full_table_identifier} AS destino
+            MERGE INTO {identificador_destino_sql} AS destino
             USING {nome_view_temp} AS origem
             ON destino.{coluna_pk} = origem.{coluna_pk}
             WHEN MATCHED THEN

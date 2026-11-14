@@ -1,4 +1,5 @@
 from typing import Dict, List
+from src.config import settings
 
 
 class TableContract:
@@ -25,8 +26,19 @@ class TableContract:
         self.adls_relative_path = adls_relative_path
         self.description = description
 
-        # Nome completo no catalogo do Databricks (Ex: hive_metastore.gd.fato_empreendimentos)
-        self.full_table_identifier = f"hive_metastore.{self.schema_name}.{self.table_name}"
+        if self.layer == "bronze":
+            self.catalog_name = settings.DATABRICKS_CATALOG_BRONZE
+        elif self.layer == "prata":
+            self.catalog_name = settings.DATABRICKS_CATALOG_PRATA
+        elif self.layer == "ouro":
+            self.catalog_name = settings.DATABRICKS_CATALOG_OURO
+        else:
+            raise ValueError(f"[Catalogo] Camada desconhecida para mapeamento de catalogo: '{self.layer}'.")
+
+        # Nome completo no Unity Catalog (Ex: portfolio-lakehouse-ouro.gd.fato_empreendimentos)
+        self.full_table_identifier = (
+            f"{self.catalog_name}.{self.schema_name}.{self.table_name}"
+        )
 
 
 class DataProductSpec:

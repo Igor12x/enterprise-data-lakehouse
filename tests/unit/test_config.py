@@ -17,11 +17,11 @@ def test_catalogo_tres_produtos_sem_prefixo():
     """Valida os produtos 'tempo', 'localidade' e 'gd' sem prefixos nos schemas."""
     produto_tempo = get_data_product("tempo")
     assert produto_tempo.schema_silver == "tempo"
-    assert produto_tempo.get_silver_table("dim_calendario").full_table_identifier == "hive_metastore.tempo.dim_calendario"
+    assert produto_tempo.get_silver_table("dim_calendario").full_table_identifier == "portfolio-lakehouse-prata.tempo.dim_calendario"
 
     produto_localidade = get_data_product("localidade")
     assert produto_localidade.schema_silver == "localidade"
-    assert produto_localidade.get_silver_table("dim_municipios").full_table_identifier == "hive_metastore.localidade.dim_municipios"
+    assert produto_localidade.get_silver_table("dim_municipios").full_table_identifier == "portfolio-lakehouse-prata.localidade.dim_municipios"
     assert len(produto_localidade.listar_chaves_prata()) == 4
 
     produto_gd = get_data_product("gd")
@@ -29,22 +29,22 @@ def test_catalogo_tres_produtos_sem_prefixo():
     assert produto_gd.schema_silver == "gd"
     assert produto_gd.schema_gold == "gd"
     assert len(produto_gd.listar_chaves_ouro()) == 5
-    assert produto_gd.get_gold_table("fato_empreendimentos").full_table_identifier == "hive_metastore.gd.fato_empreendimentos"
+    assert produto_gd.get_gold_table("fato_empreendimentos").full_table_identifier == "portfolio-lakehouse-ouro.gd.fato_empreendimentos"
 
 
 def test_obter_contrato_por_tabela_em_todas_camadas():
     """Valida a busca direta de contrato pelo nome da tabela (Bronze, Prata e Ouro)."""
     contrato_bronze = obter_contrato_por_tabela("aneel_gd_empreendimentos")
     assert contrato_bronze.layer == "bronze"
-    assert contrato_bronze.full_table_identifier == "hive_metastore.gd.aneel_gd_empreendimentos"
+    assert contrato_bronze.full_table_identifier == "portfolio-lakehouse-bronze.gd.aneel_gd_empreendimentos"
 
     contrato_prata = obter_contrato_por_tabela("dim_localidade")
     assert contrato_prata.layer == "prata"
-    assert contrato_prata.full_table_identifier == "hive_metastore.localidade.dim_localidade"
+    assert contrato_prata.full_table_identifier == "portfolio-lakehouse-prata.localidade.dim_localidade"
 
     contrato_ouro = obter_contrato_por_tabela("fato_empreendimentos")
     assert contrato_ouro.layer == "ouro"
-    assert contrato_ouro.full_table_identifier == "hive_metastore.gd.fato_empreendimentos"
+    assert contrato_ouro.full_table_identifier == "portfolio-lakehouse-ouro.gd.fato_empreendimentos"
 
 
 def test_arquivos_sql_dbt_existem_nas_pastas_camada_produto():
