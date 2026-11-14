@@ -1,6 +1,13 @@
 import os
 from pathlib import Path
-from decouple import Config, RepositoryEnv
+
+try:
+    from decouple import Config, RepositoryEnv
+    DECOUPLE_DISPONIVEL = True
+except ImportError:
+    Config = None
+    RepositoryEnv = None
+    DECOUPLE_DISPONIVEL = False
 
 
 class Settings:
@@ -25,10 +32,12 @@ class Settings:
 
         caminho_arquivo_env = self.diretorio_raiz / nome_arquivo_env
 
-        if caminho_arquivo_env.exists() is True:
+        if DECOUPLE_DISPONIVEL is True and caminho_arquivo_env.exists() is True:
             self._leitor = Config(RepositoryEnv(str(caminho_arquivo_env)))
-        else:
+        elif DECOUPLE_DISPONIVEL is True:
             self._leitor = Config(os.environ)
+        else:
+            self._leitor = None
 
         # 3. Configuracoes de tempo limite e nome do Cofre de Segredos no Databricks
         self.TIMEOUT_CONEXAO_SEGUNDOS = 60
@@ -53,20 +62,27 @@ class Settings:
 
     def _obter_valor(self, nome_chave: str, valor_padrao: str = None) -> str:
         """
-        Busca o valor de uma variavel no arquivo .env ou no sistema operacional.
+        Busca o valor de uma variavel no arquivo .env (via decouple) ou no os.environ.
+        No Databricks, funciona nativamente mesmo sem a biblioteca python-decouple instalada.
         """
         try:
-            if valor_padrao is not None:
-                valor_lido = self._leitor(nome_chave, default=valor_padrao)
+            if self._leitor is not None:
+                if valor_padrao is not None:
+                    valor_lido = self._leitor(nome_chave, default=valor_padrao)
+                else:
+                    valor_lido = self._leitor(nome_chave)
+                return valor_lido
             else:
-                valor_lido = self._leitor(nome_chave)
-            return valor_lido
+                if valor_padrao is not None:
+                    return os.environ.get(nome_chave, valor_padrao)
+                else:
+                    return os.environ.get(nome_chave)
         except Exception:
             return valor_padrao
 
     def _obter_chave_storage(self) -> str:
         """
-        Busca a senha do Data Lake primeiro no .env.
+        Busca a senha do Data Lake primeiro no .env ou variavel de ambiente.
         Se nao encontrar (ex: rodando dentro do Databricks), busca no Secret Scope (Key Vault).
         """
         chave_ambiente = self._obter_valor(nome_chave="AZURE_STORAGE_ACCOUNT_KEY")
