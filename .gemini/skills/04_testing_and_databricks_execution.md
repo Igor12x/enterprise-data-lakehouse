@@ -15,3 +15,8 @@
 ## 3. Regra de Execucao Oficial (Sem Gambiarras Locais)
 - A execucao real do pipeline (`notebooks/main_pipeline.py` e notebooks individuais em `notebooks/`) e feita **diretamente no Azure Databricks** via **Git Folders** no cluster `cluster-portfolio-small`.
 - Nunca adicione fallbacks artificiais de `dbutils` ou conexoes SQL improvisadas no notebook principal apenas para contornar a falta de Spark local; mantenha o notebook limpo e nativo para o Databricks.
+
+## 4. Landing Zone no Azure ADLS Gen2 (Protecao contra Geo-Block Gov.br)
+- Portais governamentais brasileiros (`dadosabertos.aneel.gov.br`) bloqueiam conexoes TCP vindas de datacenters estrangeiros (`East US 2`).
+- O arquivo oficial `.parquet` fica hospedado na Landing Zone do ADLS Gen2 (`abfss://portfolio-lakehouse-bronze@portfolioigordatalake.dfs.core.windows.net/landing/aneel_gd/empreendimento-geracao-distribuida.parquet`), sincronizado via `AneelGdExtractor().sincronizar_parquet_para_landing_adls()`.
+- Quando executado no Databricks, `AneelGdExtractor.extract_parquet_file()` detecta automaticamente o bloqueio de rede e entrega a URI `abfss://` para leitura nativa via `spark.read.parquet()`.

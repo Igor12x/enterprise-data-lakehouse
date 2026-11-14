@@ -73,3 +73,9 @@ def test_base_extractor_validacao_arquivo_parquet_direto(tmp_path: Path):
     arquivo_valido = tmp_path / "valido.parquet"
     arquivo_valido.write_bytes(b"PAR1_CONTEUDO_PARQUET_SIMULADO")
     extrator._validate_parquet_file(str(arquivo_valido))
+
+    uri_landing_abfss = (
+        "abfss://portfolio-lakehouse-bronze@portfolioigordatalake.dfs.core.windows.net/"
+        "landing/aneel_gd/empreendimento-geracao-distribuida.parquet"
+    )
+    extrator._validate_parquet_file(uri_landing_abfss)

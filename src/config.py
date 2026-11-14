@@ -60,6 +60,15 @@ class Settings:
         # 6. Valida se as credenciais obrigatorias foram carregadas com sucesso
         self._validar_credenciais_obrigatorias()
 
+    def esta_rodando_no_databricks(self) -> bool:
+        """
+        Verifica se o codigo esta sendo executado dentro de um cluster do Azure Databricks.
+        """
+        if "DATABRICKS_RUNTIME_VERSION" in os.environ:
+            return True
+        else:
+            return False
+
     def _obter_valor(self, nome_chave: str, valor_padrao: str = None) -> str:
         """
         Busca o valor de uma variavel no arquivo .env (via decouple) ou no os.environ.

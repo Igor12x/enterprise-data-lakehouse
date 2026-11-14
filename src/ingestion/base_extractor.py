@@ -62,12 +62,17 @@ class BaseExtractor(abc.ABC):
 
     def _validate_parquet_file(self, caminho_arquivo_parquet: str) -> None:
         """
-        Valida se o arquivo .parquet baixado existe no disco e nao esta vazio (0 bytes).
+        Valida se o arquivo .parquet baixado existe no disco e nao esta vazio (0 bytes),
+        ou se trata de uma URI remota abfss:// na Landing Zone do Azure ADLS Gen2.
         """
         if caminho_arquivo_parquet is None or str(caminho_arquivo_parquet).strip() == "":
             raise ValueError("[BaseExtractor] O caminho do arquivo .parquet retornado e vazio.")
 
-        arquivo = Path(caminho_arquivo_parquet)
+        caminho_texto = str(caminho_arquivo_parquet).strip()
+        if caminho_texto.startswith("abfss://") is True:
+            return
+
+        arquivo = Path(caminho_texto)
         if arquivo.exists() is False:
             raise FileNotFoundError(
                 f"[BaseExtractor] Arquivo .parquet nao encontrado em: {caminho_arquivo_parquet}"
@@ -206,9 +211,10 @@ class BaseExtractor(abc.ABC):
                 modo_carga=modo_validado
             )
         finally:
-            if os.path.exists(caminho_parquet_temp) is True:
-                os.remove(caminho_parquet_temp)
-                print(f"--> [BaseExtractor] Arquivo temporario removido: {caminho_parquet_temp}")
+            if str(caminho_parquet_temp).startswith("abfss://") is False:
+                if os.path.exists(caminho_parquet_temp) is True:
+                    os.remove(caminho_parquet_temp)
+                    print(f"--> [BaseExtractor] Arquivo temporario removido: {caminho_parquet_temp}")
 
         print("--> [BaseExtractor] Ingestao Bronze (Parquet Direto) finalizada com sucesso!")
         print(f"--> [BaseExtractor] Caminho ADLS: {uri_persistida}")

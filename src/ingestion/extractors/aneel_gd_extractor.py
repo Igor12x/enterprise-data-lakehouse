@@ -1,4 +1,5 @@
 from io import BytesIO
+import os
 from pathlib import Path
 import tempfile
 import requests
@@ -11,7 +12,8 @@ class AneelGdExtractor(BaseExtractor):
     """
     Extrator oficial de Geracao Distribuida da ANEEL.
     Suporta duas formas de extracao:
-      1. extract_parquet_file(): Baixa o .parquet direto para disco sem converter para Pandas (alta performance).
+      1. extract_parquet_file(): Baixa o .parquet direto para disco (ou utiliza a Landing Zone
+         do ADLS Gen2 quando executado no cluster Databricks nos EUA devido ao Geo-Block da ANEEL).
       2. extract(): Baixa o .parquet e converte para DataFrame do Pandas em memoria.
     """
 
@@ -20,6 +22,8 @@ class AneelGdExtractor(BaseExtractor):
         "resource/cd29f6eb-e08d-4db7-b6fb-ed6e3b682d27/download/"
         "empreendimento-geracao-distribuida.parquet"
     )
+
+    CAMINHO_LANDING_ADLS = "landing/aneel_gd/empreendimento-geracao-distribuida.parquet"
 
     def __init__(self, url_origem: str = None) -> None:
         super().__init__(source_name="aneel_gd")
@@ -35,10 +39,41 @@ class AneelGdExtractor(BaseExtractor):
             "Accept": "application/octet-stream"
         })
 
+    def obter_uri_landing_adls(self) -> str:
+        """
+        Retorna o caminho abfss:// do arquivo .parquet na Landing Zone do container Bronze.
+        """
+        uri_landing = settings.obter_abfss_uri(
+            container_name=settings.ADLS_CONTAINER_BRONZE,
+            caminho_relativo=self.CAMINHO_LANDING_ADLS
+        )
+        return uri_landing
+
+    def sincronizar_parquet_para_landing_adls(self) -> str:
+        """
+        Baixa o arquivo .parquet oficial da ANEEL a partir da maquina local (Brasil)
+        e envia diretamente para a Landing Zone do Azure ADLS Gen2 (portfolio-lakehouse-bronze).
+        """
+        caminho_local_temp = self.extract_parquet_file()
+
+        try:
+            uri_landing = self.lakehouse_connector.upload_arquivo_para_landing_bronze(
+                caminho_arquivo_local=caminho_local_temp,
+                caminho_relativo_landing=self.CAMINHO_LANDING_ADLS
+            )
+        finally:
+            if os.path.exists(caminho_local_temp) is True:
+                os.remove(caminho_local_temp)
+
+        return uri_landing
+
     def extract_parquet_file(self, caminho_destino: str = None) -> str:
         """
         Faz o download do arquivo .parquet da ANEEL em blocos de 1 MB salvando direto no disco,
         sem carregar na memoria RAM e sem converter para DataFrame do Pandas.
+        Quando executado no cluster Databricks nos EUA (onde o firewall da ANEEL bloqueia IPs
+        estrangeiros com ConnectTimeoutError), utiliza automaticamente o .parquet da Landing Zone
+        no Azure ADLS Gen2 (abfss://).
         """
         if caminho_destino is not None and str(caminho_destino).strip() != "":
             arquivo_saida = Path(str(caminho_destino).strip()).resolve()
@@ -48,10 +83,15 @@ class AneelGdExtractor(BaseExtractor):
 
         print(f"--> [AneelGdExtractor] Conectando na ANEEL (Parquet Direto): {self.url_origem}")
 
+        if settings.esta_rodando_no_databricks() is True:
+            timeout_tentativa = (10, settings.TIMEOUT_CONEXAO_SEGUNDOS)
+        else:
+            timeout_tentativa = settings.TIMEOUT_CONEXAO_SEGUNDOS
+
         try:
             resposta_http = self.sessao_http.get(
                 url=self.url_origem,
-                timeout=settings.TIMEOUT_CONEXAO_SEGUNDOS,
+                timeout=timeout_tentativa,
                 stream=True
             )
             resposta_http.raise_for_status()
@@ -65,6 +105,18 @@ class AneelGdExtractor(BaseExtractor):
                         arquivo_fisico.write(bloco_bytes)
 
         except requests.exceptions.RequestException as erro_rede:
+            if settings.esta_rodando_no_databricks() is True:
+                uri_landing = self.obter_uri_landing_adls()
+                print(
+                    f"--> [AneelGdExtractor] Aviso: Portal ANEEL inacessivel a partir do datacenter "
+                    f"do Databricks nos EUA (Geo-Block: {type(erro_rede).__name__})."
+                )
+                print(
+                    f"--> [AneelGdExtractor] Alternando automaticamente para leitura direta da "
+                    f"Landing Zone no Azure ADLS Gen2: {uri_landing}"
+                )
+                return uri_landing
+
             mensagem_erro = f"[AneelGdExtractor] Erro no download da ANEEL: {str(erro_rede)}"
             raise RuntimeError(mensagem_erro)
 
