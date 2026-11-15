@@ -2,6 +2,7 @@ import pytest
 from src.config import settings
 from src.catalog_dictionary import get_data_product, obter_contrato_por_tabela
 from src.connectors.adls_databricks_connector import AdlsDatabricksConnector
+from src.flows.base_flow import BaseFlow
 from src.flows.flow_aneel import FlowAneel
 
 
@@ -124,3 +125,17 @@ def test_validacao_modo_carga_conector():
 
     with pytest.raises(ValueError):
         conector.validar_modo_carga("erro")
+
+
+def test_base_flow_leitura_e_validacao_requirements():
+    """Garante que o FlowAneel herda de BaseFlow e valida todos os pacotes do requirements.txt."""
+    fluxo = FlowAneel()
+    assert isinstance(fluxo, BaseFlow)
+
+    dependencias = fluxo.ler_dependencias_requirements()
+    assert len(dependencias) > 0
+    assert any("dbt-core" in item for item in dependencias)
+    assert any("dbt-databricks" in item for item in dependencias)
+
+    faltantes = fluxo.garantir_dependencias_requirements()
+    assert faltantes == []

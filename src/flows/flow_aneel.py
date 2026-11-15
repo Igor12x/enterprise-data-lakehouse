@@ -1,17 +1,16 @@
-import os
 import subprocess
-from pathlib import Path
+import sys
 from typing import Dict, List
 from src.catalog_dictionary import get_data_product, obter_contrato_por_tabela
-from src.connectors.adls_databricks_connector import AdlsDatabricksConnector
+from src.flows.base_flow import BaseFlow
 from src.ingestion.extractors.aneel_gd_extractor import AneelGdExtractor
 
 
-class FlowAneel:
+class FlowAneel(BaseFlow):
     """
-    Orquestrador central do Lakehouse (estilo classe de servico em Java/C#).
+    Orquestrador central do Lakehouse (herda de BaseFlow).
+    Ao ser instanciado, valida obrigatoriamente todas as dependencias do requirements.txt.
     Da ANEEL e extraida apenas 1 tabela na Bronze ('aneel_gd_empreendimentos'),
-    lida diretamente em formato .parquet sem conversao intermediaria para Pandas,
     gerando as 8 tabelas Prata e as 5 tabelas Ouro (Star Schema para Power BI),
     respeitando rigorosamente a ordem de dependencia entre as tabelas.
     """
@@ -73,14 +72,9 @@ class FlowAneel:
     }
 
     def __init__(self) -> None:
+        super().__init__(flow_name="aneel_gd")
         self.produto_gd = get_data_product("gd")
         self.extrator_aneel = AneelGdExtractor()
-        self.conector_lakehouse = AdlsDatabricksConnector()
-        self.tabelas_concluidas: List[str] = []
-
-        # Localiza a pasta dbt_project na raiz do repositorio
-        diretorio_raiz = Path(__file__).resolve().parent.parent.parent
-        self.diretorio_dbt = diretorio_raiz / "dbt_project"
 
     def validar_dependencias_tabela(self, nome_tabela: str) -> None:
         """
@@ -110,52 +104,15 @@ class FlowAneel:
                         f"que ainda nao existe no catalogo."
                     )
 
-    def montar_comando_dbt(self, seletor_modelo: str, modo_carga: str) -> List[str]:
-        """
-        Constroi a lista de argumentos para executar o dbt run em modo full ou incremental.
-        """
-        modo_validado = self.conector_lakehouse.validar_modo_carga(modo_carga=modo_carga)
-
-        comando: List[str] = [
-            "dbt",
-            "run",
-            "--project-dir",
-            str(self.diretorio_dbt),
-            "--profiles-dir",
-            str(self.diretorio_dbt),
-            "--select",
-            seletor_modelo
-        ]
-
-        if modo_validado == "full":
-            comando.append("--full-refresh")
-
-        return comando
-
-    def _obter_ambiente_execucao_dbt(self) -> Dict[str, str]:
-        """
-        Injeta automaticamente no subprocesso do dbt as credenciais de conexao
-        descobertas a partir do compute ativo (Serverless ou Cluster tradicional),
-        sem exigir configuracao manual por cluster.
-        """
-        ambiente_dbt = os.environ.copy()
-        credenciais_runtime = self.conector_lakehouse.obter_credenciais_runtime_dbt()
-
-        for chave_env, valor_descoberto in credenciais_runtime.items():
-            valor_atual = ambiente_dbt.get(chave_env, "").strip()
-            if valor_atual == "" and valor_descoberto != "":
-                ambiente_dbt[chave_env] = valor_descoberto
-
-        return ambiente_dbt
-
     def executar_modelo_dbt(self, nome_modelo_ou_pasta: str, modo_carga: str = "full") -> str:
         """
-        Valida as dependencias da tabela, executa a transformacao SQL no dbt
-        e roda os testes de qualidade (chave primaria unica e nao nula).
+        Valida as dependencias da tabela, garante os pacotes do requirements.txt,
+        executa a transformacao SQL no dbt e roda os testes de qualidade.
         """
         if nome_modelo_ou_pasta in self.MAPA_DEPENDENCIAS:
             self.validar_dependencias_tabela(nome_tabela=nome_modelo_ou_pasta)
 
+        self.garantir_dependencias_requirements()
         ambiente_dbt = self._obter_ambiente_execucao_dbt()
 
         comando_run = self.montar_comando_dbt(
@@ -172,7 +129,9 @@ class FlowAneel:
             )
 
         comando_test: List[str] = [
-            "dbt",
+            sys.executable,
+            "-m",
+            "dbt.cli.main",
             "test",
             "--project-dir",
             str(self.diretorio_dbt),
