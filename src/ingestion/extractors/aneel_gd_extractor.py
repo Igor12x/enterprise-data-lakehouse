@@ -5,6 +5,7 @@ import tempfile
 import requests
 import pandas as pd
 from src.ingestion.base_extractor import BaseExtractor
+from src.connectors.adls_storage_connector import AdlsStorageConnector
 from src.config import settings
 
 
@@ -28,6 +29,7 @@ class AneelGdExtractor(BaseExtractor):
 
     def __init__(self, url_origem: str = None) -> None:
         super().__init__(source_name="aneel_gd")
+        self.adls_storage_connector = AdlsStorageConnector()
 
         if url_origem is not None and str(url_origem).strip() != "":
             self.url_origem = str(url_origem).strip()
@@ -60,7 +62,7 @@ class AneelGdExtractor(BaseExtractor):
         caminho_local_temp = self.extract_parquet_file()
 
         try:
-            uri_landing = self.lakehouse_connector.upload_arquivo_para_landing_bronze(
+            uri_landing = self.adls_storage_connector.upload_arquivo_para_landing_bronze(
                 caminho_arquivo_local=caminho_local_temp,
                 caminho_relativo_landing=self.CAMINHO_LANDING_ADLS
             )

@@ -39,7 +39,7 @@ SELECT
     TRIM(AnmPeriodoReferencia) AS anm_periodo_referencia,
     CAST(_ingestion_at AS TIMESTAMP) AS _bronze_ingestion_at,
     CURRENT_TIMESTAMP() AS _silver_processed_at
-FROM {{ source('bronze_gd', 'aneel_gd_empreendimentos') }}
+FROM {{ source('bronze_aneel', 'aneel_gd_empreendimentos') }}
 WHERE CodEmpreendimento IS NOT NULL
 QUALIFY ROW_NUMBER() OVER (
     PARTITION BY TRIM(CodEmpreendimento)

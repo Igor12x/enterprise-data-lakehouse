@@ -54,14 +54,19 @@ class DataProductSpec:
         description: str,
         tables_bronze: Dict[str, Dict[str, str]],
         tables_silver: Dict[str, Dict[str, str]],
-        tables_gold: Dict[str, Dict[str, str]]
+        tables_gold: Dict[str, Dict[str, str]],
+        schema_bronze: str = None
     ) -> None:
         self.product_id = str(product_id).strip().lower()
         self.domain_folder = str(domain_folder).strip("/")
         self.description = description
 
-        # No Databricks (hive_metastore), o nome do schema e o proprio nome do produto
-        self.schema_bronze = self.product_id
+        # Na Bronze, o schema pode ser o nome da fonte (ex: 'aneel'); na Prata e Ouro, usa o produto
+        if schema_bronze is not None and str(schema_bronze).strip() != "":
+            self.schema_bronze = str(schema_bronze).strip().lower()
+        else:
+            self.schema_bronze = self.product_id
+
         self.schema_silver = self.product_id
         self.schema_gold = self.product_id
 
@@ -89,7 +94,11 @@ class DataProductSpec:
         nome_fisico = dados_tabela["table_name"]
         chave_primaria = dados_tabela["primary_key"]
         descricao = dados_tabela["description"]
-        caminho_relativo_adls = f"{self.domain_folder}/{nome_fisico}"
+
+        if nome_camada == "bronze":
+            caminho_relativo_adls = f"{self.schema_bronze}/{nome_fisico}"
+        else:
+            caminho_relativo_adls = f"{self.domain_folder}/{nome_fisico}"
 
         contrato = TableContract(
             layer=nome_camada,
@@ -129,6 +138,13 @@ class DataProductSpec:
             chave_tabela=table_key
         )
 
+    def listar_chaves_bronze(self) -> List[str]:
+        """Retorna uma lista com os nomes das tabelas Bronze deste produto."""
+        lista_nomes: List[str] = []
+        for chave in self._tables_bronze.keys():
+            lista_nomes.append(chave)
+        return lista_nomes
+
     def listar_chaves_prata(self) -> List[str]:
         """Retorna uma lista com os nomes das tabelas Prata deste produto."""
         lista_nomes: List[str] = []
@@ -142,6 +158,26 @@ class DataProductSpec:
         for chave in self._tables_gold.keys():
             lista_nomes.append(chave)
         return lista_nomes
+
+    def listar_tabelas_por_camada(self, nome_camada: str) -> List[str]:
+        """
+        Retorna dinamicamente a lista de tabelas deste produto para a camada informada.
+        """
+        if nome_camada is None or str(nome_camada).strip() == "":
+            raise ValueError("[Catalogo] O nome da camada nao pode ser vazio.")
+
+        camada_limpa = str(nome_camada).strip().lower()
+
+        if camada_limpa == "bronze":
+            return self.listar_chaves_bronze()
+        elif camada_limpa == "prata":
+            return self.listar_chaves_prata()
+        elif camada_limpa == "ouro":
+            return self.listar_chaves_ouro()
+        else:
+            raise ValueError(
+                f"[Catalogo] Camada '{nome_camada}' invalida. Use 'bronze', 'prata' ou 'ouro'."
+            )
 
 
 # =============================================================================
@@ -211,6 +247,7 @@ DATA_PRODUCTS_CATALOG: Dict[str, DataProductSpec] = {
         product_id="gd",
         domain_folder="aneel/gd",
         description="Produto de Dados de Geracao Distribuida da ANEEL",
+        schema_bronze="aneel",
         tables_bronze={
             "aneel_gd_empreendimentos": {
                 "table_name": "aneel_gd_empreendimentos",
@@ -313,3 +350,48 @@ def obter_contrato_por_tabela(nome_tabela: str) -> TableContract:
     raise KeyError(
         f"[Catalogo] A tabela '{nome_tabela}' nao esta cadastrada em nenhum produto do catalogo."
     )
+
+
+def listar_tabelas_catalogo(camada: str, dominio_ou_fonte: str) -> List[str]:
+    """
+    Busca dinamicamente no dicionario central (SSOT) a lista de tabelas
+    de uma combinacao de camada ('bronze', 'prata', 'ouro') e produto/fonte
+    ('aneel', 'tempo', 'localidade', 'gd').
+    """
+    if camada is None or str(camada).strip() == "":
+        raise ValueError("[Catalogo] O parametro 'camada' nao pode ser vazio.")
+
+    if dominio_ou_fonte is None or str(dominio_ou_fonte).strip() == "":
+        raise ValueError("[Catalogo] O parametro 'dominio_ou_fonte' nao pode ser vazio.")
+
+    camada_limpa = str(camada).strip().lower()
+    chave_busca = str(dominio_ou_fonte).strip().lower()
+
+    if camada_limpa not in ["bronze", "prata", "ouro"]:
+        raise ValueError(
+            f"[Catalogo] Camada '{camada}' invalida. Opcoes permitidas: ['bronze', 'prata', 'ouro']."
+        )
+
+    if camada_limpa == "bronze":
+        tabelas_bronze: List[str] = []
+        for produto in DATA_PRODUCTS_CATALOG.values():
+            if produto.schema_bronze == chave_busca or produto.product_id == chave_busca:
+                chaves_produto = produto.listar_chaves_bronze()
+                for nome_tabela in chaves_produto:
+                    tabelas_bronze.append(nome_tabela)
+
+        if len(tabelas_bronze) == 0:
+            raise KeyError(
+                f"[Catalogo] Nenhuma tabela Bronze encontrada para a fonte/produto '{dominio_ou_fonte}'."
+            )
+        return tabelas_bronze
+
+    produto_selecionado = get_data_product(chave_busca)
+    tabelas_camada = produto_selecionado.listar_tabelas_por_camada(camada_limpa)
+
+    if len(tabelas_camada) == 0:
+        raise ValueError(
+            f"[Catalogo] O produto '{dominio_ou_fonte}' nao possui tabelas cadastradas na camada '{camada_limpa}'."
+        )
+
+    return tabelas_camada

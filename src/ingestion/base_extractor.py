@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 import pandas as pd
 from src.catalog_dictionary import TableContract
-from src.connectors.adls_databricks_connector import AdlsDatabricksConnector
+from src.persistence.delta_catalog_manager import DeltaCatalogManager
 
 
 class BaseExtractor(abc.ABC):
@@ -28,7 +28,8 @@ class BaseExtractor(abc.ABC):
             raise ValueError("[BaseExtractor] O parametro 'source_name' nao pode ser vazio.")
 
         self.source_name: str = texto_limpo
-        self.lakehouse_connector = AdlsDatabricksConnector()
+        self.delta_catalog_manager = DeltaCatalogManager()
+        self.lakehouse_connector = self.delta_catalog_manager
 
     @abc.abstractmethod
     def extract(self) -> pd.DataFrame:
@@ -200,12 +201,12 @@ class BaseExtractor(abc.ABC):
         OPCAO 1 (Fluxo Tradicional via Pandas DataFrame):
         Executa extracao para Pandas, injeta auditoria e grava Delta na Bronze.
         """
-        modo_validado = self.lakehouse_connector.validar_modo_carga(modo_carga=modo_carga)
+        modo_limpo = str(modo_carga).strip().lower()
 
         print("\n=======================================================")
         print(f"   INICIANDO INGESTAO BRONZE (VIA PANDAS): {contrato_tabela.table_name.upper()}   ")
         print(f"   Destino: {contrato_tabela.full_table_identifier}   ")
-        print(f"   Modo de Carga: {modo_validado.upper()}   ")
+        print(f"   Modo de Carga: {modo_limpo.upper()}   ")
         print("=======================================================")
 
         dataframe_bruto = self.extract()
@@ -220,7 +221,7 @@ class BaseExtractor(abc.ABC):
         uri_persistida = self.save_and_catalog_bronze(
             dataframe_auditado=dataframe_auditado,
             contrato_tabela=contrato_tabela,
-            modo_carga=modo_validado
+            modo_carga=modo_limpo
         )
 
         print("--> [BaseExtractor] Ingestao Bronze (via Pandas) finalizada com sucesso!")
@@ -238,12 +239,12 @@ class BaseExtractor(abc.ABC):
         OPCAO 2 (Fluxo Tradicional Direto de Arquivo .parquet Local sem Pandas):
         Baixa o arquivo .parquet bruto no disco e entrega direto ao Spark para gravar na Bronze.
         """
-        modo_validado = self.lakehouse_connector.validar_modo_carga(modo_carga=modo_carga)
+        modo_limpo = str(modo_carga).strip().lower()
 
         print("\n=======================================================")
         print(f"   INICIANDO INGESTAO BRONZE (PARQUET DIRETO): {contrato_tabela.table_name.upper()}   ")
         print(f"   Destino: {contrato_tabela.full_table_identifier}   ")
-        print(f"   Modo de Carga: {modo_validado.upper()}   ")
+        print(f"   Modo de Carga: {modo_limpo.upper()}   ")
         print("=======================================================")
 
         caminho_parquet_temp = self.extract_parquet_file()
@@ -253,7 +254,7 @@ class BaseExtractor(abc.ABC):
             uri_persistida = self.save_parquet_direct_to_bronze(
                 caminho_arquivo_parquet=caminho_parquet_temp,
                 contrato_tabela=contrato_tabela,
-                modo_carga=modo_validado
+                modo_carga=modo_limpo
             )
         finally:
             if os.path.exists(caminho_parquet_temp) is True:
@@ -276,12 +277,12 @@ class BaseExtractor(abc.ABC):
         Lê o arquivo .parquet previamente sincronizado na Landing Zone (abfss://) por uma maquina
         com IP brasileiro e entrega direto ao Spark no Databricks para gravar na Bronze.
         """
-        modo_validado = self.lakehouse_connector.validar_modo_carga(modo_carga=modo_carga)
+        modo_limpo = str(modo_carga).strip().lower()
 
         print("\n=======================================================")
         print(f"   INICIANDO INGESTAO BRONZE (LANDING ZONE IP BRASIL): {contrato_tabela.table_name.upper()}   ")
         print(f"   Destino: {contrato_tabela.full_table_identifier}   ")
-        print(f"   Modo de Carga: {modo_validado.upper()}   ")
+        print(f"   Modo de Carga: {modo_limpo.upper()}   ")
         print("=======================================================")
 
         uri_landing_abfss = self.extract_landing_brasil_uri()
@@ -290,7 +291,7 @@ class BaseExtractor(abc.ABC):
         uri_persistida = self.save_landing_brasil_to_bronze(
             uri_landing_abfss=uri_landing_abfss,
             contrato_tabela=contrato_tabela,
-            modo_carga=modo_validado
+            modo_carga=modo_limpo
         )
 
         print("--> [BaseExtractor] Ingestao Bronze (Landing Zone IP Brasil) finalizada com sucesso!")

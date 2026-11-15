@@ -12,7 +12,7 @@ WITH municipios_base AS (
         CAST(CodMunicipioIbge AS INT) AS cod_municipio_ibge,
         TRIM(UPPER(NomMunicipio)) AS nome_municipio,
         CAST(CodUFibge AS INT) AS cod_uf_ibge
-    FROM {{ source('bronze_gd', 'aneel_gd_empreendimentos') }}
+    FROM {{ source('bronze_aneel', 'aneel_gd_empreendimentos') }}
     WHERE CodMunicipioIbge IS NOT NULL
 ),
 
@@ -22,7 +22,7 @@ contagem_municipio_distribuidora AS (
         LPAD(CAST(NumCNPJDistribuidora AS STRING), 14, '0') AS cnpj_distribuidora,
         COUNT(*) AS total_conexoes,
         MAX(_ingestion_at) AS ultima_ingestao
-    FROM {{ source('bronze_gd', 'aneel_gd_empreendimentos') }}
+    FROM {{ source('bronze_aneel', 'aneel_gd_empreendimentos') }}
     WHERE CodMunicipioIbge IS NOT NULL
       AND NumCNPJDistribuidora IS NOT NULL
     GROUP BY

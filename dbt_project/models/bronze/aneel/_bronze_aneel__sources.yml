@@ -1,10 +1,10 @@
 version: 2
 
 sources:
-  - name: bronze_gd
+  - name: bronze_aneel
     database: portfolio-lakehouse-bronze
-    schema: gd
-    description: 'Camada Bronze ingerida via Python (AneelGdExtractor) em Delta Lake'
+    schema: aneel
+    description: 'Camada Bronze da fonte ANEEL ingerida via Python (AneelGdExtractor) em Delta Lake'
     tables:
       - name: aneel_gd_empreendimentos
         description: 'Tabela bruta oficial de empreendimentos de Geracao Distribuida da ANEEL'
