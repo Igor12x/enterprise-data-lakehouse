@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # ==============================================================================
 # NOTEBOOK: OURO GD (STAR SCHEMA POWER BI)
 # CAMINHO NO JOB: src/notebooks/ouro/gd.py

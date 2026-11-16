@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # ==============================================================================
 # NOTEBOOK: PRATA GD
 # CAMINHO NO JOB: src/notebooks/prata/gd.py

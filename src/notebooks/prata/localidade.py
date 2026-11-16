@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # ==============================================================================
 # NOTEBOOK: PRATA LOCALIDADE
 # CAMINHO NO JOB: src/notebooks/prata/localidade.py
