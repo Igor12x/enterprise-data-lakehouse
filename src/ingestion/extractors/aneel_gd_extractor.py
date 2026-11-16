@@ -1,18 +1,22 @@
 from io import BytesIO
+import os
 from pathlib import Path
 import tempfile
 import requests
 import pandas as pd
 from src.ingestion.base_extractor import BaseExtractor
+from src.connectors.adls_storage_connector import AdlsStorageConnector
 from src.config import settings
 
 
 class AneelGdExtractor(BaseExtractor):
     """
     Extrator oficial de Geracao Distribuida da ANEEL.
-    Suporta duas formas de extracao:
-      1. extract_parquet_file(): Baixa o .parquet direto para disco sem converter para Pandas (alta performance).
-      2. extract(): Baixa o .parquet e converte para DataFrame do Pandas em memoria.
+    Suporta tres formas de extracao:
+      1. extract(): Metodo tradicional que baixa o .parquet e converte para DataFrame do Pandas em memoria.
+      2. extract_parquet_file(): Metodo tradicional que baixa o .parquet direto para disco local sem Pandas.
+      3. extract_landing_brasil_uri(): Opcao para contornar restricao de IP no Brasil (Geo-Block),
+         utilizando o arquivo .parquet sincronizado na Landing Zone do Azure ADLS Gen2 (abfss://).
     """
 
     URL_PARQUET_OFICIAL = (
@@ -21,8 +25,11 @@ class AneelGdExtractor(BaseExtractor):
         "empreendimento-geracao-distribuida.parquet"
     )
 
+    CAMINHO_LANDING_ADLS = "landing/aneel_gd/empreendimento-geracao-distribuida.parquet"
+
     def __init__(self, url_origem: str = None) -> None:
         super().__init__(source_name="aneel_gd")
+        self.adls_storage_connector = AdlsStorageConnector()
 
         if url_origem is not None and str(url_origem).strip() != "":
             self.url_origem = str(url_origem).strip()
@@ -35,10 +42,40 @@ class AneelGdExtractor(BaseExtractor):
             "Accept": "application/octet-stream"
         })
 
+    def extract_landing_brasil_uri(self) -> str:
+        """
+        Opcao dedicada para fontes que exigem IP no Brasil:
+        Retorna a URI abfss:// do arquivo .parquet na Landing Zone do container Bronze.
+        """
+        uri_landing = settings.obter_abfss_uri(
+            container_name=settings.ADLS_CONTAINER_BRONZE,
+            caminho_relativo=self.CAMINHO_LANDING_ADLS
+        )
+        return uri_landing
+
+    def sincronizar_parquet_para_landing_adls(self) -> str:
+        """
+        Baixa o arquivo .parquet oficial da ANEEL a partir da maquina com IP no Brasil
+        (usando o metodo tradicional extract_parquet_file) e envia para a Landing Zone
+        do Azure ADLS Gen2 (portfolio-lakehouse-bronze).
+        """
+        caminho_local_temp = self.extract_parquet_file()
+
+        try:
+            uri_landing = self.adls_storage_connector.upload_arquivo_para_landing_bronze(
+                caminho_arquivo_local=caminho_local_temp,
+                caminho_relativo_landing=self.CAMINHO_LANDING_ADLS
+            )
+        finally:
+            if os.path.exists(caminho_local_temp) is True:
+                os.remove(caminho_local_temp)
+
+        return uri_landing
+
     def extract_parquet_file(self, caminho_destino: str = None) -> str:
         """
-        Faz o download do arquivo .parquet da ANEEL em blocos de 1 MB salvando direto no disco,
-        sem carregar na memoria RAM e sem converter para DataFrame do Pandas.
+        Metodo tradicional: Faz o download do arquivo .parquet da ANEEL em blocos de 1 MB
+        salvando direto no disco local, sem carregar na memoria RAM e sem converter para Pandas.
         """
         if caminho_destino is not None and str(caminho_destino).strip() != "":
             arquivo_saida = Path(str(caminho_destino).strip()).resolve()

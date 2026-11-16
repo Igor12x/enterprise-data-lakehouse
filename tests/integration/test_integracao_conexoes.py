@@ -118,10 +118,10 @@ def test_integracao_conexao_databricks():
     esta_no_databricks = "DATABRICKS_RUNTIME_VERSION" in os.environ
 
     if esta_no_databricks is True:
-        from src.connectors.adls_databricks_connector import AdlsDatabricksConnector
+        from src.infrastructure.databricks_runtime import DatabricksRuntime
 
-        conector = AdlsDatabricksConnector()
-        sessao_spark = conector.obter_sessao_spark()
+        runtime = DatabricksRuntime()
+        sessao_spark = runtime.obter_sessao_spark()
         resultado_sql = sessao_spark.sql("SELECT 1 AS teste_conexao").collect()
         assert resultado_sql[0]["teste_conexao"] == 1
         return

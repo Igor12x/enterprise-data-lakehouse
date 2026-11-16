@@ -42,7 +42,7 @@ SELECT
         ELSE NULL
     END AS nome_estado,
     CURRENT_TIMESTAMP() AS _silver_processed_at
-FROM {{ source('bronze_gd', 'aneel_gd_empreendimentos') }}
+FROM {{ source('bronze_aneel', 'aneel_gd_empreendimentos') }}
 WHERE CodUFibge IS NOT NULL
 QUALIFY ROW_NUMBER() OVER (
     PARTITION BY CAST(CodUFibge AS INT)

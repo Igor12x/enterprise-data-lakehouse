@@ -12,7 +12,7 @@ SELECT
     TRIM(SigAgente) AS sigla_distribuidora,
     TRIM(UPPER(NomAgente)) AS nome_distribuidora,
     CURRENT_TIMESTAMP() AS _silver_processed_at
-FROM {{ source('bronze_gd', 'aneel_gd_empreendimentos') }}
+FROM {{ source('bronze_aneel', 'aneel_gd_empreendimentos') }}
 WHERE NumCNPJDistribuidora IS NOT NULL
 QUALIFY ROW_NUMBER() OVER (
     PARTITION BY LPAD(CAST(NumCNPJDistribuidora AS STRING), 14, '0')
