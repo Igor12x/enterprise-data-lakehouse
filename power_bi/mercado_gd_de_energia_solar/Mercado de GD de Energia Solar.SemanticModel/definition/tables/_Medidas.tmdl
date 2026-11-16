@@ -1,0 +1,97 @@
+table _Medidas
+	lineageTag: 49d159a8-9235-4a79-9195-6e7ad111097f
+
+	measure 'Potência Instalada MW' = sum(Empreendimentos[potencia_instalada_mw])
+		lineageTag: 50df3329-cb5c-4c9e-93ca-f25e9f20899b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quantidade de UCs Beneficiadas' = sum(Empreendimentos[qtd_uc_beneficiadas])
+		formatString: 0
+		lineageTag: 839b0874-1c3a-49de-bcc5-cdf9c50538a5
+
+	measure 'Potência Instalada KW' = sum(Empreendimentos[potencia_instalada_kw])
+		lineageTag: 63300812-3a47-4eb0-8eed-7bbc68302df7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Mediana kW por Beneficiária' =
+			
+			MEDIAN(Empreendimentos[kw_por_uc])
+		lineageTag: 3e8bf4e3-6bc8-4efc-8084-32c68ed194b0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quantidade de Empreendimentos' = sum(Empreendimentos[qtd_empreendimentos])
+		formatString: 0
+		lineageTag: 3ee82b0c-578f-4579-a5a4-9b432e1b4fd8
+
+	measure 'Potência Instalada GW' = DIVIDE([Potência Instalada MW],1000,0)
+		lineageTag: f2a1f000-6fda-4951-84fa-bcc364c2e826
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Legenda Gradiente Mapa SVG' = ```
+			
+			-- ============================================================================
+			-- LEGENDA DO MAPA COM TETO BLINDADO (PADRÃO NACIONAL FIXO)
+			-- Removemos todos os filtros da tela para travar o valor máximo de mercado
+			-- ============================================================================
+			VAR _ValorMaximoNacional = 
+			    CALCULATE(
+			        MAXX(
+			            VALUES(Localidade[sigla_uf]),
+			            [Potência Instalada GW]
+			        ),
+			        -- Limpa filtros de outros gráficos para sincronizar com o limite do mapa
+			        REMOVEFILTERS()
+			    )
+			
+			VAR _ValorFormatado = 
+			    FORMAT(_ValorMaximoNacional, "0.0") & " GW"
+			
+			VAR _SvgCode = 
+			    "data:image/svg+xml;utf8," & 
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='260' height='36' viewBox='0 0 260 36'>" &
+			        "<!-- Segmentos de Gradiente Sequencial ANEEL -->" &
+			        "<rect x='10' y='6' width='20' height='10' fill='%23E5F2F6'/>" &
+			        "<rect x='30' y='6' width='20' height='10' fill='%23CBE2E9'/>" &
+			        "<rect x='50' y='6' width='20' height='10' fill='%23B1D2DD'/>" &
+			        "<rect x='70' y='6' width='20' height='10' fill='%2397C2D0'/>" &
+			        "<rect x='90' y='6' width='20' height='10' fill='%237DB2C4'/>" &
+			        "<rect x='110' y='6' width='20' height='10' fill='%2363A2B8'/>" &
+			        "<rect x='130' y='6' width='20' height='10' fill='%234E95AC'/>" &
+			        "<rect x='150' y='6' width='20' height='10' fill='%233F8AA2'/>" &
+			        "<rect x='170' y='6' width='20' height='10' fill='%23307F98'/>" &
+			        "<rect x='190' y='6' width='20' height='10' fill='%2321748E'/>" &
+			        "<rect x='210' y='6' width='20' height='10' fill='%23126984'/>" &
+			        "<rect x='230' y='6' width='20' height='10' fill='%23045E7A'/>" &
+			        "<!-- Borda de Acabamento da Barra -->" &
+			        "<rect x='10' y='6' width='240' height='10' rx='3' fill='none' stroke='%2397B1BF' stroke-width='1'/>" &
+			        "<!-- Rótulos de Mínimo e Máximo Fixo -->" &
+			        "<text x='10' y='28' font-family='Segoe UI' font-size='10' font-weight='500' fill='%235A6E7D'>0,0 GW</text>" &
+			        "<text x='250' y='28' font-family='Segoe UI' font-size='10' font-weight='600' fill='%23023447' text-anchor='end'>" & _ValorFormatado & "</text>" &
+			    "</svg>"
+			RETURN
+			    _SvgCode
+			```
+		lineageTag: 0e464d2c-2a1f-40f6-9482-88a433b5b3d7
+		dataCategory: ImageUrl
+
+	column Column
+		formatString: 0
+		lineageTag: 0a4e15b4-476b-40f5-b5a2-ba2c44ebb789
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Medidas = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 24f91112fcf741a29b1a62b008a459ee
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

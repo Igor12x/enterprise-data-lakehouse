@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Mercado de GD de Energia Solar"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f207c2b1-cfb4-4e60-9dfc-42fcbd6876de"
+  }
+}

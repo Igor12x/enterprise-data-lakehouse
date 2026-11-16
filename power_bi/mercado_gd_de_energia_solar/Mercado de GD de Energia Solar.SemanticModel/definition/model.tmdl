@@ -1,0 +1,31 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Empreendimentos","Tecnologia da Geração","Titular","Modalidade de Compensação","Enquadramento Tarifárico","Localidade","Calendário"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Empreendimentos
+ref table DateTableTemplate_556ae18c-131b-4f12-b934-7fa8ba1c682e
+ref table 'Tecnologia da Geração'
+ref table Titular
+ref table 'Modalidade de Compensação'
+ref table 'Enquadramento Tarifárico'
+ref table Localidade
+ref table Calendário
+ref table LocalDateTable_7a1e5751-2f29-4e2a-80b2-f75c273fbffe
+ref table _Medidas
+ref table LocalDateTable_35b22c27-4170-4df6-8c48-00770bce5603
+ref table LocalDateTable_dd8a4d8f-8626-4c8d-a720-7334316b828a
+ref table LocalDateTable_4ff9502b-ac3b-4f9f-a230-aaae47f58070
+
+ref cultureInfo pt-BR
+

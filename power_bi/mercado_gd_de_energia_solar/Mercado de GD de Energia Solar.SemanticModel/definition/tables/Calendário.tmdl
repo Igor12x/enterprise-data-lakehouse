@@ -1,0 +1,31 @@
+table Calendário
+	lineageTag: 06619d2e-720e-4961-a3f2-aac28ea841aa
+
+	column data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ad34d392-efb7-4385-bc79-2652b6d50155
+		summarizeBy: none
+		sourceColumn: data
+
+		variation Variation
+			isDefault
+			relationship: 9fb5c5fd-607c-4456-b662-bcf161ad74dc
+			defaultHierarchy: LocalDateTable_7a1e5751-2f29-4e2a-80b2-f75c273fbffe.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Calendário = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("adb-7405611240116100.0.azuredatabricks.net", "/sql/1.0/warehouses/087be43b953b43a5", [Catalog="default", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]){[Name="default",Kind="Database"]}[Data], "select#(lf)#(tab)data#(lf)from `portfolio-lakehouse-prata`.tempo.dim_calendario", null, [EnableFolding=true])
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

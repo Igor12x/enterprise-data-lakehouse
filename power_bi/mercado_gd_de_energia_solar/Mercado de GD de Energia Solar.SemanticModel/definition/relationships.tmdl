@@ -1,0 +1,44 @@
+relationship AutoDetected_4f05f527-bdb8-4551-87e6-43bbbed9bb5d
+	fromColumn: Empreendimentos.sk_enquadramento
+	toColumn: 'Enquadramento Tarifárico'.sk_enquadramento
+
+relationship AutoDetected_00a23ba9-3c3b-4218-889a-db8f04a7bda2
+	fromColumn: Empreendimentos.sk_titular
+	toColumn: Titular.sk_titular
+
+relationship AutoDetected_b887cb9e-17ae-44b8-8a1a-3e14f5928aef
+	fromColumn: Empreendimentos.sk_tecnologia
+	toColumn: 'Tecnologia da Geração'.sk_tecnologia
+
+relationship AutoDetected_bb192898-4241-4fe0-969e-d6ac7091de68
+	fromColumn: Empreendimentos.sk_modalidade
+	toColumn: 'Modalidade de Compensação'.sk_modalidade
+
+relationship 9fb5c5fd-607c-4456-b662-bcf161ad74dc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendário.data
+	toColumn: LocalDateTable_7a1e5751-2f29-4e2a-80b2-f75c273fbffe.Date
+
+relationship AutoDetected_7839100e-cf81-44ff-9b4a-f27a6fe72e0b
+	fromColumn: Empreendimentos.cod_municipio_ibge
+	toColumn: Localidade.cod_municipio_ibge
+
+relationship b17aaad7-8291-a76a-a36d-9cb7b87e4ff4
+	fromColumn: Empreendimentos.data_conexao
+	toColumn: Calendário.data
+
+relationship 645ef080-72c9-4cba-ba58-06c2aba49d46
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Empreendimentos._gold_processed_at
+	toColumn: LocalDateTable_35b22c27-4170-4df6-8c48-00770bce5603.Date
+
+relationship fad2392f-a4b7-42b3-9d1e-831b534ab422
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Tecnologia da Geração'._gold_processed_at
+	toColumn: LocalDateTable_dd8a4d8f-8626-4c8d-a720-7334316b828a.Date
+
+relationship 08ac26b3-8322-46de-8b5a-7ea08529a0a5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Enquadramento Tarifárico'._gold_processed_at
+	toColumn: LocalDateTable_4ff9502b-ac3b-4f9f-a230-aaae47f58070.Date
+

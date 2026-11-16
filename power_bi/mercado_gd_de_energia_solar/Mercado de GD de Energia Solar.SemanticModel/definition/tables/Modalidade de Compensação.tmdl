@@ -1,0 +1,33 @@
+table 'Modalidade de Compensação'
+	lineageTag: 98d6a1bd-9cc8-420f-903a-1457b2e14e13
+
+	column sk_modalidade
+		dataType: int64
+		lineageTag: 7510acf3-86d8-41a2-902d-782f4a9d4cd3
+		summarizeBy: none
+		sourceColumn: sk_modalidade
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column modalidade_compensacao
+		dataType: string
+		lineageTag: 0c197e4f-de1e-49f1-b5af-dc5e1d0e55bc
+		summarizeBy: none
+		sourceColumn: modalidade_compensacao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Modalidade de Compensação' = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("adb-7405611240116100.0.azuredatabricks.net", "/sql/1.0/warehouses/087be43b953b43a5", [Catalog="default", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]){[Name="default",Kind="Database"]}[Data], "select#(lf)#(tab)sk_modalidade,#(lf)#(tab)modalidade_compensacao#(lf)from `portfolio-lakehouse-ouro`.gd.dim_modalidade", null, [EnableFolding=true])
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

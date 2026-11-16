@@ -1,0 +1,58 @@
+table Titular
+	lineageTag: 3cc0e7fc-5f7c-4c49-b59e-d447551abaa3
+
+	column sk_titular
+		dataType: int64
+		lineageTag: b47efa18-6be7-4516-b9a2-c064e869423a
+		summarizeBy: none
+		sourceColumn: sk_titular
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column tipo_consumidor
+		dataType: string
+		lineageTag: 697a63f5-4a36-41ec-a48e-def00b5b5332
+		summarizeBy: none
+		sourceColumn: tipo_consumidor
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_titular
+		dataType: string
+		lineageTag: e632e657-ebb5-4bad-9ee6-3c750de709da
+		summarizeBy: none
+		sourceColumn: nome_titular
+
+		annotation SummarizationSetBy = Automatic
+
+	column documento_titular
+		dataType: string
+		lineageTag: 97f21291-789a-4890-9e94-cde95cfa3c13
+		summarizeBy: none
+		sourceColumn: documento_titular
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_anonimizado_lgpd
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d3085c08-ee7d-45f8-bba5-8a286166fe63
+		summarizeBy: none
+		sourceColumn: is_anonimizado_lgpd
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Titular = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("adb-7405611240116100.0.azuredatabricks.net", "/sql/1.0/warehouses/087be43b953b43a5", [Catalog="default", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]){[Name="default",Kind="Database"]}[Data], "select#(lf)#(tab)sk_titular,#(lf)#(tab)tipo_consumidor,#(lf)#(tab)nome_titular,#(lf)#(tab)documento_titular,#(lf)#(tab)is_anonimizado_lgpd#(lf)from `portfolio-lakehouse-ouro`.gd.dim_titular", null, [EnableFolding=true])
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
