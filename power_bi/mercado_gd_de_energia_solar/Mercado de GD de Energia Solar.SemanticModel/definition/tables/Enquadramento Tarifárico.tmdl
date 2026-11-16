@@ -1,0 +1,71 @@
+table 'Enquadramento Tarifárico'
+	lineageTag: e762a913-5afc-4b3d-a25c-8736e47dc6ed
+
+	column sk_enquadramento
+		dataType: int64
+		lineageTag: 63efd32d-155f-473c-8d6a-d59185a51ca8
+		summarizeBy: none
+		sourceColumn: sk_enquadramento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cod_classe_consumo
+		dataType: string
+		lineageTag: 81265876-ce12-4c9b-a9e2-56a041f0e141
+		summarizeBy: none
+		sourceColumn: cod_classe_consumo
+
+		annotation SummarizationSetBy = Automatic
+
+	column subgrupo_tarifario
+		dataType: string
+		lineageTag: 6b2c05cf-8219-4d7e-93f4-f98409df74ec
+		summarizeBy: none
+		sourceColumn: subgrupo_tarifario
+
+		annotation SummarizationSetBy = Automatic
+
+	column grupo_tensao
+		dataType: string
+		lineageTag: 53a4b4b9-d215-4ee1-b093-a016c501bb47
+		summarizeBy: none
+		sourceColumn: grupo_tensao
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricao_classe
+		dataType: string
+		lineageTag: ea54f0dc-0eae-4397-a5f9-12f5db247703
+		summarizeBy: none
+		sourceColumn: descricao_classe
+
+		annotation SummarizationSetBy = Automatic
+
+	column _gold_processed_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1339dd16-83a3-44f0-8a73-b22f0332bcfb
+		summarizeBy: none
+		sourceColumn: _gold_processed_at
+
+		variation Variação
+			isDefault
+			relationship: 08ac26b3-8322-46de-8b5a-7ea08529a0a5
+			defaultHierarchy: LocalDateTable_4ff9502b-ac3b-4f9f-a230-aaae47f58070.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Enquadramento Tarifárico' = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("adb-7405611240116100.0.azuredatabricks.net", "/sql/1.0/warehouses/087be43b953b43a5", [Catalog="default", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]){[Name="default",Kind="Database"]}[Data], "select#(lf)*#(lf)from `portfolio-lakehouse-ouro`.gd.dim_enquadramento", null, [EnableFolding=true])
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

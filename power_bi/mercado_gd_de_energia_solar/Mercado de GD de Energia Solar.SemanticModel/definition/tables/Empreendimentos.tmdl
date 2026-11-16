@@ -1,0 +1,164 @@
+table Empreendimentos
+	lineageTag: cdbf6e44-7408-4047-9a71-e4b77a32b97b
+
+	column cod_municipio_ibge
+		dataType: int64
+		formatString: 0
+		lineageTag: e09c2694-92e9-4363-9675-4ebad8d0ded3
+		summarizeBy: none
+		sourceColumn: cod_municipio_ibge
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnpj_distribuidora
+		dataType: int64
+		formatString: 0
+		lineageTag: 0e85bb77-f321-48d9-afab-bf4b990f933a
+		summarizeBy: sum
+		sourceColumn: cnpj_distribuidora
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_enquadramento
+		dataType: int64
+		lineageTag: 97cf1906-5ebf-4692-bd62-5634f742b58b
+		summarizeBy: none
+		sourceColumn: sk_enquadramento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sk_titular
+		dataType: int64
+		lineageTag: 7171fee8-994f-43a7-985d-8821d4481a68
+		summarizeBy: none
+		sourceColumn: sk_titular
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sk_tecnologia
+		dataType: int64
+		lineageTag: ef0b7390-ec4f-461e-bfc4-4c254c340bba
+		summarizeBy: none
+		sourceColumn: sk_tecnologia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sk_modalidade
+		dataType: int64
+		lineageTag: d22d5239-dc3f-4e03-96a3-f5ee620b1539
+		summarizeBy: none
+		sourceColumn: sk_modalidade
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_data_conexao
+		dataType: int64
+		formatString: 0
+		lineageTag: e623d6fb-3050-472e-971a-8d915f2155e2
+		summarizeBy: sum
+		sourceColumn: id_data_conexao
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_conexao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 92b53ee2-ce3c-4b4c-88e9-cb97e7f8ceec
+		summarizeBy: none
+		sourceColumn: data_conexao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column potencia_instalada_kw
+		dataType: double
+		lineageTag: 99088a70-54b0-45d9-a049-297857c9463f
+		summarizeBy: sum
+		sourceColumn: potencia_instalada_kw
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column potencia_instalada_mw
+		dataType: double
+		lineageTag: 3185592b-6ba5-401a-8544-2cd13fb585bc
+		summarizeBy: sum
+		sourceColumn: potencia_instalada_mw
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column qtd_uc_beneficiadas
+		dataType: int64
+		formatString: 0
+		lineageTag: 6901fbee-5f30-49a3-bf33-61595e44e198
+		summarizeBy: sum
+		sourceColumn: qtd_uc_beneficiadas
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_empreendimentos
+		dataType: int64
+		formatString: 0
+		lineageTag: 6b503e32-48ed-449a-afbd-e087193ebbdd
+		summarizeBy: sum
+		sourceColumn: qtd_empreendimentos
+
+		annotation SummarizationSetBy = Automatic
+
+	column kw_por_uc
+		dataType: double
+		lineageTag: 5f16bbf2-7e87-41de-95e8-0e80b2adbc10
+		summarizeBy: sum
+		sourceColumn: kw_por_uc
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sk_empreendimento
+		dataType: int64
+		formatString: 0
+		lineageTag: 6f9213b5-fa31-4581-af34-79d686e583b2
+		summarizeBy: sum
+		sourceColumn: sk_empreendimento
+
+		annotation SummarizationSetBy = Automatic
+
+	column _gold_processed_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 29e7fcb6-4a04-41ad-9401-49e38faf19ce
+		summarizeBy: none
+		sourceColumn: _gold_processed_at
+
+		variation Variação
+			isDefault
+			relationship: 645ef080-72c9-4cba-ba58-06c2aba49d46
+			defaultHierarchy: LocalDateTable_35b22c27-4170-4df6-8c48-00770bce5603.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Empreendimentos = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("adb-7405611240116100.0.azuredatabricks.net", "/sql/1.0/warehouses/087be43b953b43a5", [Catalog="default", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]){[Name="default",Kind="Database"]}[Data], "select * from `portfolio-lakehouse-ouro`.gd.fato_empreendimentos", null, [EnableFolding=true])
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

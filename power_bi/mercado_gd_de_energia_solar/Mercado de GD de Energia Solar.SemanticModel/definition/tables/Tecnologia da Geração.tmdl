@@ -1,0 +1,63 @@
+table 'Tecnologia da Geração'
+	lineageTag: 885f6cc8-edcb-440b-9252-d54b604240db
+
+	column sk_tecnologia
+		dataType: int64
+		lineageTag: 4dd3f8a0-dbd5-4a11-944b-c6c062b4e427
+		summarizeBy: none
+		sourceColumn: sk_tecnologia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sigla_tipo_geracao
+		dataType: string
+		lineageTag: 66ba0a91-6ec7-49aa-8f20-b02b5f026cf4
+		summarizeBy: none
+		sourceColumn: sigla_tipo_geracao
+
+		annotation SummarizationSetBy = Automatic
+
+	column fonte_geracao
+		dataType: string
+		lineageTag: a1e6e0ed-01b9-40a4-acc5-510b57a849be
+		summarizeBy: none
+		sourceColumn: fonte_geracao
+
+		annotation SummarizationSetBy = Automatic
+
+	column porte_geracao
+		dataType: string
+		lineageTag: 6d78bc43-90b1-4d82-aed4-571076228b4f
+		summarizeBy: none
+		sourceColumn: porte_geracao
+
+		annotation SummarizationSetBy = Automatic
+
+	column _gold_processed_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 24ddf799-2b64-4579-bab1-57aa595e9f7f
+		summarizeBy: none
+		sourceColumn: _gold_processed_at
+
+		variation Variação
+			isDefault
+			relationship: fad2392f-a4b7-42b3-9d1e-831b534ab422
+			defaultHierarchy: LocalDateTable_dd8a4d8f-8626-4c8d-a720-7334316b828a.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Tecnologia da Geração' = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("adb-7405611240116100.0.azuredatabricks.net", "/sql/1.0/warehouses/087be43b953b43a5", [Catalog="default", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]){[Name="default",Kind="Database"]}[Data], "select * from `portfolio-lakehouse-ouro`.gd.dim_tecnologia", null, [EnableFolding=true])
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

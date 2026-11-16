@@ -1,0 +1,4305 @@
+cultureInfo pt-BR
+
+	linguisticMetadata =
+			{
+			  "Version": "4.1.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "empreendimento": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "empreendimento": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "empreendimento.cod_municipio_ibge": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "cod_municipio_ibge"
+			        }
+			      },
+			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
+			      "Terms": [
+			        {
+			          "cod municipio ibge": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "cod_municipio_ibge": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "empreendimento.cnpj_distribuidora": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "cnpj_distribuidora"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "cnpj distribuidora": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "cnpj_distribuidora": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "empreendimento.sk_enquadramento": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "sk_enquadramento"
+			        }
+			      },
+			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
+			      "Terms": [
+			        {
+			          "sk enquadramento": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sk_enquadramento": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "empreendimento.sk_titular": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "sk_titular"
+			        }
+			      },
+			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
+			      "Terms": [
+			        {
+			          "sk titular": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sk_titular": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "empreendimento.sk_tecnologia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "sk_tecnologia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
+			      "Terms": [
+			        {
+			          "sk tecnologia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sk_tecnologia": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "empreendimento.sk_modalidade": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "sk_modalidade"
+			        }
+			      },
+			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
+			      "Terms": [
+			        {
+			          "sk modalidade": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sk_modalidade": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "empreendimento.id_data_conexao": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "id_data_conexao"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "id data conexao": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "id_data_conexao": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "identification data conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "identity data conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "identifier data conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "id information conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "id fact conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "id info conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "id statistic conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "credential data conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "id document conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "id figure conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ]
+			    },
+			    "empreendimento.data_conexao": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "data_conexao"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "data conexao": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "data_conexao": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "date": {
+			            "State": "Generated",
+			            "Weight": 0.7
+			          }
+			        },
+			        {
+			          "information conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "fact conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "info conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "statistic conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "document conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "figure conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "record conexao": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "empreendimento.potencia_instalada_kw": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "potencia_instalada_kw"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "potencia instalada kw": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "potencia_instalada_kw": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "empreendimento.potencia_instalada_mw": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "potencia_instalada_mw"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "potencia instalada mw": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "potencia_instalada_mw": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "empreendimento.qtd_uc_beneficiada": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "qtd_uc_beneficiadas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "qtd uc beneficiada": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "qtd_uc_beneficiadas": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "empreendimento.qtd_empreendimento": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "qtd_empreendimentos"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "qtd empreendimento": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "qtd_empreendimentos": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "empreendimento.kw_por_uc": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Empreendimentos",
+			          "ConceptualProperty": "kw_por_uc"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "kw por uc": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "kw_por_uc": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tecnologia_da_geração": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Tecnologia da Geração"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tecnologia da geração": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "tecnologia_da_geração.sk_tecnologia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Tecnologia da Geração",
+			          "ConceptualProperty": "sk_tecnologia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sk tecnologia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sk_tecnologia": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tecnologia_da_geração.sigla_tipo_geracao": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Tecnologia da Geração",
+			          "ConceptualProperty": "sigla_tipo_geracao"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sigla tipo geracao": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sigla_tipo_geracao": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tecnologia_da_geração.fonte_geracao": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Tecnologia da Geração",
+			          "ConceptualProperty": "fonte_geracao"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "fonte geracao": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "fonte_geracao": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tecnologia_da_geração.porte_geracao": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Tecnologia da Geração",
+			          "ConceptualProperty": "porte_geracao"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "porte geracao": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "porte_geracao": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "Porte da Geração": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "titular": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Titular"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "titular": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "titular.sk_titular": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Titular",
+			          "ConceptualProperty": "sk_titular"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sk titular": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sk_titular": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "titular.tipo_consumidor": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Titular",
+			          "ConceptualProperty": "tipo_consumidor"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tipo consumidor": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tipo_consumidor": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "titular.nome_titular": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Titular",
+			          "ConceptualProperty": "nome_titular"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "nome titular": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "nome_titular": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "titular.documento_titular": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Titular",
+			          "ConceptualProperty": "documento_titular"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "documento titular": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "documento_titular": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "titular.is_anonimizado_lgpd": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Titular",
+			          "ConceptualProperty": "is_anonimizado_lgpd"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "is anonimizado lgpd": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "is_anonimizado_lgpd": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "modalidade_de_compensação": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Modalidade de Compensação"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "modalidade de compensação": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "modalidade_de_compensação.sk_modalidade": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Modalidade de Compensação",
+			          "ConceptualProperty": "sk_modalidade"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sk modalidade": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sk_modalidade": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "modalidade_de_compensação.modalidade_compensacao": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Modalidade de Compensação",
+			          "ConceptualProperty": "modalidade_compensacao"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "modalidade compensacao": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "modalidade_compensacao": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "Modalidade de Compensação": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "enquadramento_tarifárico": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Enquadramento Tarifárico"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "enquadramento tarifárico": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "enquadramento_tarifárico.sk_enquadramento": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Enquadramento Tarifárico",
+			          "ConceptualProperty": "sk_enquadramento"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sk enquadramento": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sk_enquadramento": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "enquadramento_tarifárico.cod_classe_consumo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Enquadramento Tarifárico",
+			          "ConceptualProperty": "cod_classe_consumo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "cod classe consumo": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "cod_classe_consumo": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "enquadramento_tarifárico.subgrupo_tarifario": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Enquadramento Tarifárico",
+			          "ConceptualProperty": "subgrupo_tarifario"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "subgrupo tarifario": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "subgrupo_tarifario": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "enquadramento_tarifárico.grupo_tensao": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Enquadramento Tarifárico",
+			          "ConceptualProperty": "grupo_tensao"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "grupo tensao": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "grupo_tensao": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "enquadramento_tarifárico.descricao_classe": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Enquadramento Tarifárico",
+			          "ConceptualProperty": "descricao_classe"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "descricao classe": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "descricao_classe": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "Descrição da Classe": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "localidade": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Localidade"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "localidade": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "localidade.cod_uf_ibge": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Localidade",
+			          "ConceptualProperty": "cod_uf_ibge"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "cod uf ibge": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "cod_uf_ibge": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "localidade.sigla_uf": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Localidade",
+			          "ConceptualProperty": "sigla_uf"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sigla uf": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sigla_uf": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "state or province": {
+			            "State": "Generated",
+			            "Weight": 0.7
+			          }
+			        }
+			      ],
+			      "SemanticType": "Location"
+			    },
+			    "localidade.cod_regiao": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Localidade",
+			          "ConceptualProperty": "cod_regiao"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "cod regiao": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "cod_regiao": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "localidade.cod_municipio_ibge": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Localidade",
+			          "ConceptualProperty": "cod_municipio_ibge"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "cod municipio ibge": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "cod_municipio_ibge": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "localidade.nome_municipio": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Localidade",
+			          "ConceptualProperty": "nome_municipio"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "nome municipio": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "nome_municipio": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "county": {
+			            "State": "Generated",
+			            "Weight": 0.7
+			          }
+			        }
+			      ],
+			      "SemanticType": "Location"
+			    },
+			    "localidade.cnpj_distribuidora": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Localidade",
+			          "ConceptualProperty": "cnpj_distribuidora"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "cnpj distribuidora": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "cnpj_distribuidora": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "localidade.nome_regiao": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Localidade",
+			          "ConceptualProperty": "nome_regiao"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "nome regiao": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "nome_regiao": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "localidade.nome_distribuidora": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Localidade",
+			          "ConceptualProperty": "nome_distribuidora"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "nome distribuidora": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "nome_distribuidora": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "localidade.sigla_distribuidora": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Localidade",
+			          "ConceptualProperty": "sigla_distribuidora"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sigla distribuidora": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sigla_distribuidora": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "Distribuidora": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "localidade.nome_estado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Localidade",
+			          "ConceptualProperty": "nome_estado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "nome estado": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "nome_estado": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "state or province": {
+			            "State": "Generated",
+			            "Weight": 0.7
+			          }
+			        },
+			        {
+			          "estado": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        }
+			      ],
+			      "SemanticType": "Location"
+			    },
+			    "calendário": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendário"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "calendário": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "calendário.data": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendário",
+			          "ConceptualProperty": "data"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "data": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "date": {
+			            "State": "Generated",
+			            "Weight": 0.7
+			          }
+			        },
+			        {
+			          "information": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "fact": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "info": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "statistic": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "document": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        },
+			        {
+			          "figure": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        },
+			        {
+			          "record": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "calendário.data.hierarquia_de_data": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendário",
+			          "VariationSource": "data",
+			          "VariationSet": "Variation",
+			          "Hierarchy": "Hierarquia de datas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "hierarquia de data": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "hierarquia de information": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "hierarquia de fact": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "hierarquia de info": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "hierarquia de statistic": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "hierarquia de document": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "hierarquia de figure": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "hierarquia de record": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        }
+			      ]
+			    },
+			    "calendário.data.ano": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendário",
+			          "VariationSource": "data",
+			          "VariationSet": "Variation",
+			          "Hierarchy": "Hierarquia de datas",
+			          "HierarchyLevel": "Ano"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "ano": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "data ano": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "information ano": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "fact ano": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "info ano": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "statistic ano": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "document ano": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "figure ano": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "record ano": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        }
+			      ]
+			    },
+			    "calendário.data.trimestre": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendário",
+			          "VariationSource": "data",
+			          "VariationSet": "Variation",
+			          "Hierarchy": "Hierarquia de datas",
+			          "HierarchyLevel": "Trimestre"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "trimestre": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "data trimestre": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "information trimestre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "fact trimestre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "info trimestre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "statistic trimestre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "document trimestre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "figure trimestre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "record trimestre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        }
+			      ]
+			    },
+			    "calendário.data.mê": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendário",
+			          "VariationSource": "data",
+			          "VariationSet": "Variation",
+			          "Hierarchy": "Hierarquia de datas",
+			          "HierarchyLevel": "Mês"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "mê": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "data mê": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "information mê": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "fact mê": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "info mê": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "statistic mê": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "document mê": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "figure mê": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "record mê": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        }
+			      ]
+			    },
+			    "calendário.data.dia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendário",
+			          "VariationSource": "data",
+			          "VariationSet": "Variation",
+			          "Hierarchy": "Hierarquia de datas",
+			          "HierarchyLevel": "Dia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "dia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "data dia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "information dia": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "fact dia": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "info dia": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "statistic dia": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "document dia": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "figure dia": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "record dia": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        }
+			      ]
+			    },
+			    "entity__medida": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "_medida": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "entity__medida.column": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Column"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "column": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "pilaster": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "pier": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "pillar": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "post": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "support": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "stake": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "pole": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "buttress": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "underpinning": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "contribution": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.466
+			          }
+			        }
+			      ]
+			    },
+			    "entity__medida.potência_instalada_MW": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Potência Instalada MW"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "potência instalada MW": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "entity__medida.quantidade_de_UCs_beneficiadas": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Quantidade de UCs Beneficiadas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "quantidade de UCs beneficiadas": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "entity__medida.potência_instalada_KW": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Potência Instalada KW"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "potência instalada KW": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "entity__medida.mediana_kW_por_beneficiária": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Mediana kW por Beneficiária"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "mediana kW por beneficiária": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "entity__medida.quantidade_de_empreendimentos": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Quantidade de Empreendimentos"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "quantidade de empreendimentos": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "entity__medida.potência_instalada_GW": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Potência Instalada GW"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "potência instalada GW": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "entity__medida.legenda_gradiente_mapa_SVG": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Legenda Gradiente Mapa SVG"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "legenda gradiente mapa SVG": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    }
+			  },
+			  "Relationships": {
+			    "calendário_data_mê_has_calendário_data_dia": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendário"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendário.data.mê": {
+			          "Target": {
+			            "Entity": "calendário.data.mê"
+			          }
+			        },
+			        "calendário.data.dia": {
+			          "Target": {
+			            "Entity": "calendário.data.dia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário.data.mê"
+			            },
+			            "Object": {
+			              "Role": "calendário.data.dia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "mê_have_dias"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário.data.dia"
+			            },
+			            "Object": {
+			              "Role": "calendário.data.mê"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dias_have_mê"
+			        },
+			        {
+			          "Preposition": {
+			            "Subject": {
+			              "Role": "calendário.data.dia"
+			            },
+			            "Prepositions": [
+			              {
+			                "in": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "calendário.data.mê"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dias_are_in_mê"
+			        }
+			      ]
+			    },
+			    "calendário_data_trimestre_has_calendário_data_mê": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendário"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendário.data.trimestre": {
+			          "Target": {
+			            "Entity": "calendário.data.trimestre"
+			          }
+			        },
+			        "calendário.data.mê": {
+			          "Target": {
+			            "Entity": "calendário.data.mê"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário.data.trimestre"
+			            },
+			            "Object": {
+			              "Role": "calendário.data.mê"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "trimestres_have_mê"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário.data.mê"
+			            },
+			            "Object": {
+			              "Role": "calendário.data.trimestre"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "mê_have_trimestres"
+			        },
+			        {
+			          "Preposition": {
+			            "Subject": {
+			              "Role": "calendário.data.mê"
+			            },
+			            "Prepositions": [
+			              {
+			                "in": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "calendário.data.trimestre"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "mê_are_in_trimestres"
+			        }
+			      ]
+			    },
+			    "calendário_data_ano_has_calendário_data_trimestre": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendário"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendário.data.ano": {
+			          "Target": {
+			            "Entity": "calendário.data.ano"
+			          }
+			        },
+			        "calendário.data.trimestre": {
+			          "Target": {
+			            "Entity": "calendário.data.trimestre"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário.data.ano"
+			            },
+			            "Object": {
+			              "Role": "calendário.data.trimestre"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "anos_have_trimestres"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário.data.trimestre"
+			            },
+			            "Object": {
+			              "Role": "calendário.data.ano"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "trimestres_have_anos"
+			        },
+			        {
+			          "Preposition": {
+			            "Subject": {
+			              "Role": "calendário.data.trimestre"
+			            },
+			            "Prepositions": [
+			              {
+			                "in": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "calendário.data.ano"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "trimestres_are_in_anos"
+			        }
+			      ]
+			    },
+			    "calendário_data_hierarquia_de_data_has_calendário_data_dia": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendário"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendário.data.hierarquia_de_data": {
+			          "Target": {
+			            "Entity": "calendário.data.hierarquia_de_data"
+			          }
+			        },
+			        "calendário.data.dia": {
+			          "Target": {
+			            "Entity": "calendário.data.dia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário.data.hierarquia_de_data"
+			            },
+			            "Object": {
+			              "Role": "calendário.data.dia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "hierarquia_de_data_have_dias"
+			        }
+			      ]
+			    },
+			    "calendário_data_hierarquia_de_data_has_calendário_data_mê": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendário"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendário.data.hierarquia_de_data": {
+			          "Target": {
+			            "Entity": "calendário.data.hierarquia_de_data"
+			          }
+			        },
+			        "calendário.data.mê": {
+			          "Target": {
+			            "Entity": "calendário.data.mê"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário.data.hierarquia_de_data"
+			            },
+			            "Object": {
+			              "Role": "calendário.data.mê"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "hierarquia_de_data_have_mê"
+			        }
+			      ]
+			    },
+			    "calendário_data_hierarquia_de_data_has_calendário_data_trimestre": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendário"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendário.data.hierarquia_de_data": {
+			          "Target": {
+			            "Entity": "calendário.data.hierarquia_de_data"
+			          }
+			        },
+			        "calendário.data.trimestre": {
+			          "Target": {
+			            "Entity": "calendário.data.trimestre"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário.data.hierarquia_de_data"
+			            },
+			            "Object": {
+			              "Role": "calendário.data.trimestre"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "hierarquia_de_data_have_trimestres"
+			        }
+			      ]
+			    },
+			    "calendário_data_hierarquia_de_data_has_calendário_data_ano": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendário"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendário.data.hierarquia_de_data": {
+			          "Target": {
+			            "Entity": "calendário.data.hierarquia_de_data"
+			          }
+			        },
+			        "calendário.data.ano": {
+			          "Target": {
+			            "Entity": "calendário.data.ano"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário.data.hierarquia_de_data"
+			            },
+			            "Object": {
+			              "Role": "calendário.data.ano"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "hierarquia_de_data_have_anos"
+			        }
+			      ]
+			    },
+			    "calendário_data_has_hierarquia_de_data": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendário"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendário.data": {
+			          "Target": {
+			            "Entity": "calendário.data"
+			          }
+			        },
+			        "calendário.data.hierarquia_de_data": {
+			          "Target": {
+			            "Entity": "calendário.data.hierarquia_de_data"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário.data"
+			            },
+			            "Object": {
+			              "Role": "calendário.data.hierarquia_de_data"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "data_have_hierarquia_de_data"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_calendário": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "calendário": {
+			          "Target": {
+			            "Entity": "calendário"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "calendário"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_calendários"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário"
+			            },
+			            "Object": {
+			              "Role": "empreendimento"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "calendários_have_empreendimentos"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_localidade": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "localidade"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_localidades"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Object": {
+			              "Role": "empreendimento"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_have_empreendimentos"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_modalidade_de_compensação": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "modalidade_de_compensação": {
+			          "Target": {
+			            "Entity": "modalidade_de_compensação"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "modalidade_de_compensação"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_modalidade_de_compensaçãos"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "modalidade_de_compensação"
+			            },
+			            "Object": {
+			              "Role": "empreendimento"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "modalidade_de_compensaçãos_have_empreendimentos"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_tecnologia_da_geração": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "tecnologia_da_geração": {
+			          "Target": {
+			            "Entity": "tecnologia_da_geração"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "tecnologia_da_geração"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_tecnologia_da_geraçãos"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tecnologia_da_geração"
+			            },
+			            "Object": {
+			              "Role": "empreendimento"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tecnologia_da_geraçãos_have_empreendimentos"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_titular": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "titular": {
+			          "Target": {
+			            "Entity": "titular"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "titular"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_titulars"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "titular"
+			            },
+			            "Object": {
+			              "Role": "empreendimento"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "titulars_have_empreendimentos"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_enquadramento_tarifárico": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "enquadramento_tarifárico": {
+			          "Target": {
+			            "Entity": "enquadramento_tarifárico"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "enquadramento_tarifárico"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_enquadramento_tarifáricos"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "enquadramento_tarifárico"
+			            },
+			            "Object": {
+			              "Role": "empreendimento"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "enquadramento_tarifáricos_have_empreendimentos"
+			        }
+			      ]
+			    },
+			    "localidade_has_entity__medida_legenda_gradiente_mapa_SVG": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "entity__medida.legenda_gradiente_mapa_SVG": {
+			          "Target": {
+			            "Entity": "entity__medida.legenda_gradiente_mapa_SVG"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.legenda_gradiente_mapa_SVG"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_have_legenda_gradiente_mapa_SVG"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_entity__medida_legenda_gradiente_mapa_SVG": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "entity__medida.legenda_gradiente_mapa_SVG": {
+			          "Target": {
+			            "Entity": "entity__medida.legenda_gradiente_mapa_SVG"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.legenda_gradiente_mapa_SVG"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_legenda_gradiente_mapa_SVG"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_entity__medida_potência_instalada_GW": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "entity__medida.potência_instalada_GW": {
+			          "Target": {
+			            "Entity": "entity__medida.potência_instalada_GW"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.potência_instalada_GW"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_potência_instalada_GW"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_entity__medida_quantidade_de_empreendimentos": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "entity__medida.quantidade_de_empreendimentos": {
+			          "Target": {
+			            "Entity": "entity__medida.quantidade_de_empreendimentos"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.quantidade_de_empreendimentos"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_quantidade_de_empreendimentos"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_entity__medida_mediana_kW_por_beneficiária": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "entity__medida.mediana_kW_por_beneficiária": {
+			          "Target": {
+			            "Entity": "entity__medida.mediana_kW_por_beneficiária"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.mediana_kW_por_beneficiária"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_mediana_kW_por_beneficiária"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_entity__medida_potência_instalada_KW": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "entity__medida.potência_instalada_KW": {
+			          "Target": {
+			            "Entity": "entity__medida.potência_instalada_KW"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.potência_instalada_KW"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_potência_instalada_KW"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_entity__medida_quantidade_de_UCs_beneficiadas": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "entity__medida.quantidade_de_UCs_beneficiadas": {
+			          "Target": {
+			            "Entity": "entity__medida.quantidade_de_UCs_beneficiadas"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.quantidade_de_UCs_beneficiadas"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_quantidade_de_UCs_beneficiadas"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_entity__medida_potência_instalada_MW": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "entity__medida.potência_instalada_MW": {
+			          "Target": {
+			            "Entity": "entity__medida.potência_instalada_MW"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.potência_instalada_MW"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_potência_instalada_MW"
+			        }
+			      ]
+			    },
+			    "entity__medida_has_column": {
+			      "Binding": {
+			        "ConceptualEntity": "_Medidas"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "entity__medida": {
+			          "Target": {
+			            "Entity": "entity__medida"
+			          }
+			        },
+			        "entity__medida.column": {
+			          "Target": {
+			            "Entity": "entity__medida.column"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "entity__medida"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.column"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "Phrasing_medidas_have_columns"
+			        }
+			      ]
+			    },
+			    "calendário_has_data": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendário"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendário": {
+			          "Target": {
+			            "Entity": "calendário"
+			          }
+			        },
+			        "calendário.data": {
+			          "Target": {
+			            "Entity": "calendário.data"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendário"
+			            },
+			            "Object": {
+			              "Role": "calendário.data"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "calendários_have_data"
+			        }
+			      ]
+			    },
+			    "localidade_has_nome_estado": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.nome_estado": {
+			          "Target": {
+			            "Entity": "localidade.nome_estado"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Object": {
+			              "Role": "localidade.nome_estado"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_have_nome_estado"
+			        }
+			      ]
+			    },
+			    "localidade_has_sigla_distribuidora": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.sigla_distribuidora": {
+			          "Target": {
+			            "Entity": "localidade.sigla_distribuidora"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Object": {
+			              "Role": "localidade.sigla_distribuidora"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_have_sigla_distribuidoras"
+			        }
+			      ]
+			    },
+			    "localidade_has_nome_distribuidora": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.nome_distribuidora": {
+			          "Target": {
+			            "Entity": "localidade.nome_distribuidora"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Object": {
+			              "Role": "localidade.nome_distribuidora"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_have_nome_distribuidoras"
+			        }
+			      ]
+			    },
+			    "localidade_has_nome_regiao": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.nome_regiao": {
+			          "Target": {
+			            "Entity": "localidade.nome_regiao"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Object": {
+			              "Role": "localidade.nome_regiao"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_have_nome_regiaos"
+			        }
+			      ]
+			    },
+			    "localidade_has_cnpj_distribuidora": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.cnpj_distribuidora": {
+			          "Target": {
+			            "Entity": "localidade.cnpj_distribuidora"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Object": {
+			              "Role": "localidade.cnpj_distribuidora"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_have_cnpj_distribuidoras"
+			        }
+			      ]
+			    },
+			    "localidade_has_nome_municipio": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.nome_municipio": {
+			          "Target": {
+			            "Entity": "localidade.nome_municipio"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Object": {
+			              "Role": "localidade.nome_municipio"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_have_nome_municipios"
+			        }
+			      ]
+			    },
+			    "localidade_has_cod_municipio_ibge": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.cod_municipio_ibge": {
+			          "Target": {
+			            "Entity": "localidade.cod_municipio_ibge"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Object": {
+			              "Role": "localidade.cod_municipio_ibge"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_have_cod_municipio_ibges"
+			        }
+			      ]
+			    },
+			    "localidade_has_cod_regiao": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.cod_regiao": {
+			          "Target": {
+			            "Entity": "localidade.cod_regiao"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Object": {
+			              "Role": "localidade.cod_regiao"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_have_cod_regiaos"
+			        }
+			      ]
+			    },
+			    "localidade_has_sigla_uf": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.sigla_uf": {
+			          "Target": {
+			            "Entity": "localidade.sigla_uf"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Object": {
+			              "Role": "localidade.sigla_uf"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_have_sigla_ufs"
+			        }
+			      ]
+			    },
+			    "localidade_has_cod_uf_ibge": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.cod_uf_ibge": {
+			          "Target": {
+			            "Entity": "localidade.cod_uf_ibge"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Object": {
+			              "Role": "localidade.cod_uf_ibge"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_have_cod_uf_ibges"
+			        }
+			      ]
+			    },
+			    "enquadramento_tarifárico_has_descricao_classe": {
+			      "Binding": {
+			        "ConceptualEntity": "Enquadramento Tarifárico"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "enquadramento_tarifárico": {
+			          "Target": {
+			            "Entity": "enquadramento_tarifárico"
+			          }
+			        },
+			        "enquadramento_tarifárico.descricao_classe": {
+			          "Target": {
+			            "Entity": "enquadramento_tarifárico.descricao_classe"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "enquadramento_tarifárico"
+			            },
+			            "Object": {
+			              "Role": "enquadramento_tarifárico.descricao_classe"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "enquadramento_tarifáricos_have_descricao_classes"
+			        }
+			      ]
+			    },
+			    "enquadramento_tarifárico_has_grupo_tensao": {
+			      "Binding": {
+			        "ConceptualEntity": "Enquadramento Tarifárico"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "enquadramento_tarifárico": {
+			          "Target": {
+			            "Entity": "enquadramento_tarifárico"
+			          }
+			        },
+			        "enquadramento_tarifárico.grupo_tensao": {
+			          "Target": {
+			            "Entity": "enquadramento_tarifárico.grupo_tensao"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "enquadramento_tarifárico"
+			            },
+			            "Object": {
+			              "Role": "enquadramento_tarifárico.grupo_tensao"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "enquadramento_tarifáricos_have_grupo_tensaos"
+			        }
+			      ]
+			    },
+			    "enquadramento_tarifárico_has_subgrupo_tarifario": {
+			      "Binding": {
+			        "ConceptualEntity": "Enquadramento Tarifárico"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "enquadramento_tarifárico": {
+			          "Target": {
+			            "Entity": "enquadramento_tarifárico"
+			          }
+			        },
+			        "enquadramento_tarifárico.subgrupo_tarifario": {
+			          "Target": {
+			            "Entity": "enquadramento_tarifárico.subgrupo_tarifario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "enquadramento_tarifárico"
+			            },
+			            "Object": {
+			              "Role": "enquadramento_tarifárico.subgrupo_tarifario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "enquadramento_tarifáricos_have_subgrupo_tarifarios"
+			        }
+			      ]
+			    },
+			    "enquadramento_tarifárico_has_cod_classe_consumo": {
+			      "Binding": {
+			        "ConceptualEntity": "Enquadramento Tarifárico"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "enquadramento_tarifárico": {
+			          "Target": {
+			            "Entity": "enquadramento_tarifárico"
+			          }
+			        },
+			        "enquadramento_tarifárico.cod_classe_consumo": {
+			          "Target": {
+			            "Entity": "enquadramento_tarifárico.cod_classe_consumo"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "enquadramento_tarifárico"
+			            },
+			            "Object": {
+			              "Role": "enquadramento_tarifárico.cod_classe_consumo"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "enquadramento_tarifáricos_have_cod_classe_consumos"
+			        }
+			      ]
+			    },
+			    "enquadramento_tarifárico_has_sk_enquadramento": {
+			      "Binding": {
+			        "ConceptualEntity": "Enquadramento Tarifárico"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "enquadramento_tarifárico": {
+			          "Target": {
+			            "Entity": "enquadramento_tarifárico"
+			          }
+			        },
+			        "enquadramento_tarifárico.sk_enquadramento": {
+			          "Target": {
+			            "Entity": "enquadramento_tarifárico.sk_enquadramento"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "enquadramento_tarifárico"
+			            },
+			            "Object": {
+			              "Role": "enquadramento_tarifárico.sk_enquadramento"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "enquadramento_tarifáricos_have_sk_enquadramentos"
+			        }
+			      ]
+			    },
+			    "modalidade_de_compensação_has_modalidade_compensacao": {
+			      "Binding": {
+			        "ConceptualEntity": "Modalidade de Compensação"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "modalidade_de_compensação": {
+			          "Target": {
+			            "Entity": "modalidade_de_compensação"
+			          }
+			        },
+			        "modalidade_de_compensação.modalidade_compensacao": {
+			          "Target": {
+			            "Entity": "modalidade_de_compensação.modalidade_compensacao"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "modalidade_de_compensação"
+			            },
+			            "Object": {
+			              "Role": "modalidade_de_compensação.modalidade_compensacao"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "modalidade_de_compensaçãos_have_modalidade_compensacaos"
+			        }
+			      ]
+			    },
+			    "modalidade_de_compensação_has_sk_modalidade": {
+			      "Binding": {
+			        "ConceptualEntity": "Modalidade de Compensação"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "modalidade_de_compensação": {
+			          "Target": {
+			            "Entity": "modalidade_de_compensação"
+			          }
+			        },
+			        "modalidade_de_compensação.sk_modalidade": {
+			          "Target": {
+			            "Entity": "modalidade_de_compensação.sk_modalidade"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "modalidade_de_compensação"
+			            },
+			            "Object": {
+			              "Role": "modalidade_de_compensação.sk_modalidade"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "modalidade_de_compensaçãos_have_sk_modalidades"
+			        }
+			      ]
+			    },
+			    "titular_has_is_anonimizado_lgpd": {
+			      "Binding": {
+			        "ConceptualEntity": "Titular"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "titular": {
+			          "Target": {
+			            "Entity": "titular"
+			          }
+			        },
+			        "titular.is_anonimizado_lgpd": {
+			          "Target": {
+			            "Entity": "titular.is_anonimizado_lgpd"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "titular"
+			            },
+			            "Object": {
+			              "Role": "titular.is_anonimizado_lgpd"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "titulars_have_is_anonimizado_lgpds"
+			        }
+			      ]
+			    },
+			    "titular_has_documento_titular": {
+			      "Binding": {
+			        "ConceptualEntity": "Titular"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "titular": {
+			          "Target": {
+			            "Entity": "titular"
+			          }
+			        },
+			        "titular.documento_titular": {
+			          "Target": {
+			            "Entity": "titular.documento_titular"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "titular"
+			            },
+			            "Object": {
+			              "Role": "titular.documento_titular"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "titulars_have_documento_titulars"
+			        }
+			      ]
+			    },
+			    "titular_has_nome_titular": {
+			      "Binding": {
+			        "ConceptualEntity": "Titular"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "titular": {
+			          "Target": {
+			            "Entity": "titular"
+			          }
+			        },
+			        "titular.nome_titular": {
+			          "Target": {
+			            "Entity": "titular.nome_titular"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "titular"
+			            },
+			            "Object": {
+			              "Role": "titular.nome_titular"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "titulars_have_nome_titulars"
+			        }
+			      ]
+			    },
+			    "titular_has_tipo_consumidor": {
+			      "Binding": {
+			        "ConceptualEntity": "Titular"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "titular": {
+			          "Target": {
+			            "Entity": "titular"
+			          }
+			        },
+			        "titular.tipo_consumidor": {
+			          "Target": {
+			            "Entity": "titular.tipo_consumidor"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "titular"
+			            },
+			            "Object": {
+			              "Role": "titular.tipo_consumidor"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "titulars_have_tipo_consumidors"
+			        }
+			      ]
+			    },
+			    "titular_has_sk_titular": {
+			      "Binding": {
+			        "ConceptualEntity": "Titular"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "titular": {
+			          "Target": {
+			            "Entity": "titular"
+			          }
+			        },
+			        "titular.sk_titular": {
+			          "Target": {
+			            "Entity": "titular.sk_titular"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "titular"
+			            },
+			            "Object": {
+			              "Role": "titular.sk_titular"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "titulars_have_sk_titulars"
+			        }
+			      ]
+			    },
+			    "tecnologia_da_geração_has_porte_geracao": {
+			      "Binding": {
+			        "ConceptualEntity": "Tecnologia da Geração"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tecnologia_da_geração": {
+			          "Target": {
+			            "Entity": "tecnologia_da_geração"
+			          }
+			        },
+			        "tecnologia_da_geração.porte_geracao": {
+			          "Target": {
+			            "Entity": "tecnologia_da_geração.porte_geracao"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tecnologia_da_geração"
+			            },
+			            "Object": {
+			              "Role": "tecnologia_da_geração.porte_geracao"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tecnologia_da_geraçãos_have_porte_geracaos"
+			        }
+			      ]
+			    },
+			    "tecnologia_da_geração_has_fonte_geracao": {
+			      "Binding": {
+			        "ConceptualEntity": "Tecnologia da Geração"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tecnologia_da_geração": {
+			          "Target": {
+			            "Entity": "tecnologia_da_geração"
+			          }
+			        },
+			        "tecnologia_da_geração.fonte_geracao": {
+			          "Target": {
+			            "Entity": "tecnologia_da_geração.fonte_geracao"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tecnologia_da_geração"
+			            },
+			            "Object": {
+			              "Role": "tecnologia_da_geração.fonte_geracao"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tecnologia_da_geraçãos_have_fonte_geracaos"
+			        }
+			      ]
+			    },
+			    "tecnologia_da_geração_has_sigla_tipo_geracao": {
+			      "Binding": {
+			        "ConceptualEntity": "Tecnologia da Geração"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tecnologia_da_geração": {
+			          "Target": {
+			            "Entity": "tecnologia_da_geração"
+			          }
+			        },
+			        "tecnologia_da_geração.sigla_tipo_geracao": {
+			          "Target": {
+			            "Entity": "tecnologia_da_geração.sigla_tipo_geracao"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tecnologia_da_geração"
+			            },
+			            "Object": {
+			              "Role": "tecnologia_da_geração.sigla_tipo_geracao"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tecnologia_da_geraçãos_have_sigla_tipo_geracaos"
+			        }
+			      ]
+			    },
+			    "tecnologia_da_geração_has_sk_tecnologia": {
+			      "Binding": {
+			        "ConceptualEntity": "Tecnologia da Geração"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tecnologia_da_geração": {
+			          "Target": {
+			            "Entity": "tecnologia_da_geração"
+			          }
+			        },
+			        "tecnologia_da_geração.sk_tecnologia": {
+			          "Target": {
+			            "Entity": "tecnologia_da_geração.sk_tecnologia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tecnologia_da_geração"
+			            },
+			            "Object": {
+			              "Role": "tecnologia_da_geração.sk_tecnologia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tecnologia_da_geraçãos_have_sk_tecnologias"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_kw_por_uc": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "empreendimento.kw_por_uc": {
+			          "Target": {
+			            "Entity": "empreendimento.kw_por_uc"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "empreendimento.kw_por_uc"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_kw_por_uc"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_qtd_empreendimento": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "empreendimento.qtd_empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento.qtd_empreendimento"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "empreendimento.qtd_empreendimento"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_qtd_empreendimentos"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_qtd_uc_beneficiada": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "empreendimento.qtd_uc_beneficiada": {
+			          "Target": {
+			            "Entity": "empreendimento.qtd_uc_beneficiada"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "empreendimento.qtd_uc_beneficiada"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_qtd_uc_beneficiadas"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_potencia_instalada_mw": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "empreendimento.potencia_instalada_mw": {
+			          "Target": {
+			            "Entity": "empreendimento.potencia_instalada_mw"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "empreendimento.potencia_instalada_mw"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_potencia_instalada_mw"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_potencia_instalada_kw": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "empreendimento.potencia_instalada_kw": {
+			          "Target": {
+			            "Entity": "empreendimento.potencia_instalada_kw"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "empreendimento.potencia_instalada_kw"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_potencia_instalada_kw"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_data_conexao": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "empreendimento.data_conexao": {
+			          "Target": {
+			            "Entity": "empreendimento.data_conexao"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "empreendimento.data_conexao"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_data_conexaos"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_id_data_conexao": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "empreendimento.id_data_conexao": {
+			          "Target": {
+			            "Entity": "empreendimento.id_data_conexao"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "empreendimento.id_data_conexao"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_id_data_conexaos"
+			        }
+			      ]
+			    },
+			    "empreendimento_has_cnpj_distribuidora": {
+			      "Binding": {
+			        "ConceptualEntity": "Empreendimentos"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "empreendimento": {
+			          "Target": {
+			            "Entity": "empreendimento"
+			          }
+			        },
+			        "empreendimento.cnpj_distribuidora": {
+			          "Target": {
+			            "Entity": "empreendimento.cnpj_distribuidora"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "empreendimento"
+			            },
+			            "Object": {
+			              "Role": "empreendimento.cnpj_distribuidora"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "empreendimentos_have_cnpj_distribuidoras"
+			        }
+			      ]
+			    },
+			    "localidade_in_nome_estado": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.nome_estado": {
+			          "Target": {
+			            "Entity": "localidade.nome_estado"
+			          }
+			        }
+			      },
+			      "SemanticSlots": {
+			        "Where": {
+			          "Role": "localidade.nome_estado"
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Preposition": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Prepositions": [
+			              {
+			                "in": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "localidade.nome_estado"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_are_in_nome_estado"
+			        }
+			      ]
+			    },
+			    "localidade_in_nome_municipio": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.nome_municipio": {
+			          "Target": {
+			            "Entity": "localidade.nome_municipio"
+			          }
+			        }
+			      },
+			      "SemanticSlots": {
+			        "Where": {
+			          "Role": "localidade.nome_municipio"
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Preposition": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Prepositions": [
+			              {
+			                "in": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "localidade.nome_municipio"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_are_in_nome_municipios"
+			        }
+			      ]
+			    },
+			    "localidade_in_sigla_uf": {
+			      "Binding": {
+			        "ConceptualEntity": "Localidade"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "localidade": {
+			          "Target": {
+			            "Entity": "localidade"
+			          }
+			        },
+			        "localidade.sigla_uf": {
+			          "Target": {
+			            "Entity": "localidade.sigla_uf"
+			          }
+			        }
+			      },
+			      "SemanticSlots": {
+			        "Where": {
+			          "Role": "localidade.sigla_uf"
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Preposition": {
+			            "Subject": {
+			              "Role": "localidade"
+			            },
+			            "Prepositions": [
+			              {
+			                "in": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "localidade.sigla_uf"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "localidades_are_in_sigla_ufs"
+			        }
+			      ]
+			    }
+			  },
+			  "Agents": {
+			    "Internal": {
+			      "Version": "1.1.0"
+			    }
+			  }
+			}
+		contentType: json
+

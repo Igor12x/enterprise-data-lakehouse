@@ -1,0 +1,101 @@
+table Localidade
+	lineageTag: d508c554-9107-4fbf-80b1-1464b69ed860
+
+	column cod_uf_ibge
+		dataType: int64
+		formatString: 0
+		lineageTag: 50fc2ad9-c2d8-4952-9748-8f19eb9d9acd
+		summarizeBy: none
+		sourceColumn: cod_uf_ibge
+
+		annotation SummarizationSetBy = Automatic
+
+	column sigla_uf
+		dataType: string
+		lineageTag: 4a3d38c7-8372-40da-9675-22c5b84d6fa7
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: sigla_uf
+
+		annotation SummarizationSetBy = Automatic
+
+	column cod_regiao
+		dataType: int64
+		formatString: 0
+		lineageTag: 906db914-68ab-4c4a-b3b9-5f4cdc8190e4
+		summarizeBy: none
+		sourceColumn: cod_regiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column cod_municipio_ibge
+		dataType: int64
+		formatString: 0
+		lineageTag: 0651b013-e429-45c1-a134-9da9b299b5d9
+		summarizeBy: none
+		sourceColumn: cod_municipio_ibge
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_municipio
+		dataType: string
+		lineageTag: 3d29aab0-889e-4c1b-988f-99ddc90d73f2
+		dataCategory: County
+		summarizeBy: none
+		sourceColumn: nome_municipio
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnpj_distribuidora
+		dataType: string
+		lineageTag: 6fcb0592-7acc-4045-a84f-f7b706237c58
+		summarizeBy: none
+		sourceColumn: cnpj_distribuidora
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_regiao
+		dataType: string
+		lineageTag: 89059157-e1d7-4d4e-9cb3-725576bf31ca
+		summarizeBy: none
+		sourceColumn: nome_regiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_distribuidora
+		dataType: string
+		lineageTag: 861111dc-5ae4-4fe1-bf64-3b43ac9ccfb4
+		summarizeBy: none
+		sourceColumn: nome_distribuidora
+
+		annotation SummarizationSetBy = Automatic
+
+	column sigla_distribuidora
+		dataType: string
+		lineageTag: 6f2e8017-977f-4eca-8cc2-96552b09d527
+		summarizeBy: none
+		sourceColumn: sigla_distribuidora
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_estado
+		dataType: string
+		lineageTag: 4aa8efb7-298b-4b1d-a28b-2466cebb5b09
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: nome_estado
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Localidade = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("adb-7405611240116100.0.azuredatabricks.net", "/sql/1.0/warehouses/087be43b953b43a5", [Catalog="default", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]){[Name="default",Kind="Database"]}[Data], "select#(lf)#(tab)cod_municipio_ibge,#(lf)#(tab)nome_municipio,#(lf)#(tab)cnpj_distribuidora,#(lf)#(tab)cod_uf_ibge,#(lf)#(tab)sigla_uf,#(lf)        nome_estado,#(lf)#(tab)cod_regiao,#(lf)#(tab)nome_regiao,#(lf)#(tab)nome_distribuidora,#(lf)#(tab)sigla_distribuidora#(lf)from `portfolio-lakehouse-prata`.localidade.dim_localidade", null, [EnableFolding=true])
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,198 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "5f0f3350f5c0f331124a",
+  "displayName": "Energia Solar no Brasil",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "860fa2fbd95a13c8ac87",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tecnologia da Geração"
+              }
+            },
+            "Property": "fonte_geracao"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "t",
+              "Entity": "Tecnologia da Geração",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "t"
+                          }
+                        },
+                        "Property": "fonte_geracao"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Radiação solar'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "isLockedInViewMode": true
+      },
+      {
+        "name": "78f83499af39dc855c96",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tecnologia da Geração"
+              }
+            },
+            "Property": "porte_geracao"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "0376cdab46540e61b7c1",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Titular"
+              }
+            },
+            "Property": "tipo_consumidor"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      }
+    ],
+    "filterSortOrder": "Custom"
+  },
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Frame 3.svg'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "Frame_36109858772889385.svg"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Normal'"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "8daf3cb3477a23552aaa",
+      "target": "64932db48b60dc27e683",
+      "type": "DataFilter"
+    },
+    {
+      "source": "8daf3cb3477a23552aaa",
+      "target": "67592b5a7ee53a1c6e66",
+      "type": "DataFilter"
+    },
+    {
+      "source": "77a0bc75df94f3e29b25",
+      "target": "67592b5a7ee53a1c6e66",
+      "type": "DataFilter"
+    },
+    {
+      "source": "77a0bc75df94f3e29b25",
+      "target": "64932db48b60dc27e683",
+      "type": "DataFilter"
+    },
+    {
+      "source": "77a0bc75df94f3e29b25",
+      "target": "8daf3cb3477a23552aaa",
+      "type": "DataFilter"
+    },
+    {
+      "source": "008a10b8a84a1bc692fa",
+      "target": "64932db48b60dc27e683",
+      "type": "DataFilter"
+    },
+    {
+      "source": "008a10b8a84a1bc692fa",
+      "target": "67592b5a7ee53a1c6e66",
+      "type": "DataFilter"
+    },
+    {
+      "source": "008a10b8a84a1bc692fa",
+      "target": "8daf3cb3477a23552aaa",
+      "type": "DataFilter"
+    },
+    {
+      "source": "64932db48b60dc27e683",
+      "target": "67592b5a7ee53a1c6e66",
+      "type": "DataFilter"
+    },
+    {
+      "source": "64932db48b60dc27e683",
+      "target": "8daf3cb3477a23552aaa",
+      "type": "DataFilter"
+    },
+    {
+      "source": "67592b5a7ee53a1c6e66",
+      "target": "64932db48b60dc27e683",
+      "type": "DataFilter"
+    },
+    {
+      "source": "67592b5a7ee53a1c6e66",
+      "target": "8daf3cb3477a23552aaa",
+      "type": "DataFilter"
+    }
+  ]
+}

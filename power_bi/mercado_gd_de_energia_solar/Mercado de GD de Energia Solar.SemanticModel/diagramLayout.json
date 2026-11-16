@@ -1,0 +1,221 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1988.8320137416322,
+            "y": 200.20281169377145
+          },
+          "nodeIndex": "Empreendimentos",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2130.0079465877479,
+            "y": -50
+          },
+          "nodeIndex": "Tecnologia da Geração",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1704.6221629171366,
+            "y": 87.8014169567698
+          },
+          "nodeIndex": "Titular",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1850.5878794185164,
+            "y": 550.40755786526256
+          },
+          "nodeIndex": "Modalidade de Compensação",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2273.0429303857,
+            "y": 366.06378157071288
+          },
+          "nodeIndex": "Enquadramento Tarifárico",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136.6221629171366,
+            "y": 220.2334903494515
+          },
+          "nodeIndex": "Calendário",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 618.41040181545566,
+            "y": 178.55276528505632
+          },
+          "nodeIndex": "Localidade",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "_Medidas",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 50.346892102823141,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 327.92318516073766
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 757.45426355504947,
+            "y": 1124.6113418471407
+          },
+          "nodeIndex": "Calendário",
+          "nodeLineageTag": "06619d2e-720e-4961-a3f2-aac28ea841aa",
+          "size": {
+            "height": 328.12338305407934,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 432.9848819760839,
+            "y": 797.05394829590466
+          },
+          "nodeIndex": "Empreendimentos",
+          "nodeLineageTag": "cdbf6e44-7408-4047-9a71-e4b77a32b97b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 620.7541113006946,
+            "y": 441.64059335529191
+          },
+          "nodeIndex": "Enquadramento Tarifárico",
+          "nodeLineageTag": "e762a913-5afc-4b3d-a25c-8736e47dc6ed",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 928.00332889934657,
+            "y": 904.00764255499087
+          },
+          "nodeIndex": "Modalidade de Compensação",
+          "nodeLineageTag": "98d6a1bd-9cc8-420f-903a-1457b2e14e13",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 121.86652285560078,
+            "y": 1170.5375771238942
+          },
+          "nodeIndex": "Tecnologia da Geração",
+          "nodeLineageTag": "885f6cc8-edcb-440b-9252-d54b604240db",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 818.16921420900974
+          },
+          "nodeIndex": "Titular",
+          "nodeLineageTag": "3cc0e7fc-5f7c-4c49-b59e-d447551abaa3",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 172.13682282403516,
+            "y": 454.62603259412964
+          },
+          "nodeIndex": "Localidade",
+          "nodeLineageTag": "d508c554-9107-4fbf-80b1-1464b69ed860",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 6
+        }
+      ],
+      "name": "Layout 1",
+      "zoomValue": 47.572116599054652,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Layout 1",
+  "defaultDiagram": "Todas as tabelas"
+}
