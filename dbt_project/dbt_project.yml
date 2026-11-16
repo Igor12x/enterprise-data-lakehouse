@@ -5,6 +5,7 @@ config-version: 2
 profile: 'lakehouse_databricks'
 
 model-paths: ["models"]
+macro-paths: ["macros"]
 
 models:
   enterprise_data_lakehouse:

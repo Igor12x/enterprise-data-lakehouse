@@ -1,22 +1,21 @@
-# Skill 04: Testes Unitarios, Testes de Integracao & Execucao no Databricks
+# Skill 04: Testes, Landing Zone IP Brasil & Orquestracao no Databricks Workflows
 
 ## 1. Testes Unitarios Locais (`tests/unit/`)
-- Devem rodar **100% no Windows local sem Java/Spark** via `python -m pytest -v tests/unit/`.
-- Cobrem:
-  - `test_base_extractor.py`: Contrato abstrato, metadados de auditoria e validacao de arquivo `.parquet` direto.
-  - `test_config.py`: Configuracoes, catalogo SSOT dos 3 produtos sem prefixo, existencia dos 13 modelos `.sql` com `dim_`/`fato_`, uso obrigatorio de `xxhash64()` + `incremental_strategy='merge'`, integridade matematica de `FlowAneel.MAPA_DEPENDENCIAS`, montagem de `--full-refresh` e validacao de `modo_carga`.
+- Rodam 100% localmente sem exigir sessao Java/Spark ativa (`python -m pytest -v tests/unit/`).
+- Validam:
+  - `test_base_extractor.py`: Contrato abstrato `BaseExtractor`, metadados de auditoria, validacao de arquivo `.parquet` local e validacao de URI `abfss://` da Landing Zone.
+  - `test_config.py`: Configuracoes, catalogo SSOT (`tempo`, `localidade`, `gd` e schema Bronze `aneel`), existencia dos 13 modelos `.sql` e dos 5 notebooks em `src/notebooks/`, separacao de responsabilidades (`DatabricksRuntime`, `DbtRunner`, `AdlsStorageConnector`, `DeltaCatalogManager`), verificacao de `requirements.txt` e contrato dinamico de `BaseNotebook`.
 
 ## 2. Testes de Integracao (`tests/integration/`)
-- O arquivo `tests/integration/test_integracao_conexoes.py` valida os servicos externos reais:
-  1. Disponibilidade da URL oficial da ANEEL (`HTTP 200` + assinatura binaria `PAR1`).
-  2. Autenticacao SharedKey no Azure ADLS Gen2 (`portfolioigordatalake` / container `portfolio-lakehouse-bronze`).
-  3. Conectividade com o Azure Databricks (via `SparkSession` dentro do cluster ou `databricks-sql-connector` quando credenciais estiverem no `.env`).
+- `tests/integration/test_integracao_conexoes.py` valida:
+  1. Disponibilidade HTTP 200 e cabecalho binario `PAR1` da ANEEL.
+  2. Autenticacao SharedKey no Azure ADLS Gen2 (`portfolioigordatalake`).
+  3. Conectividade SQL/Spark com o Azure Databricks.
 
-## 3. Regra de Execucao Oficial (Sem Gambiarras Locais)
-- A execucao real do pipeline (`notebooks/main_pipeline.py` e notebooks individuais em `notebooks/`) e feita **diretamente no Azure Databricks** via **Git Folders** no cluster `cluster-portfolio-small`.
-- Nunca adicione fallbacks artificiais de `dbutils` ou conexoes SQL improvisadas no notebook principal apenas para contornar a falta de Spark local; mantenha o notebook limpo e nativo para o Databricks.
-
-## 4. Landing Zone no Azure ADLS Gen2 (Protecao contra Geo-Block Gov.br)
-- Portais governamentais brasileiros (`dadosabertos.aneel.gov.br`) bloqueiam conexoes TCP vindas de datacenters estrangeiros (`East US 2`).
-- O arquivo oficial `.parquet` fica hospedado na Landing Zone do ADLS Gen2 (`abfss://portfolio-lakehouse-bronze@portfolioigordatalake.dfs.core.windows.net/landing/aneel_gd/empreendimento-geracao-distribuida.parquet`), sincronizado via `AneelGdExtractor().sincronizar_parquet_para_landing_adls()`.
-- Quando executado no Databricks, `AneelGdExtractor.extract_parquet_file()` detecta automaticamente o bloqueio de rede e entrega a URI `abfss://` para leitura nativa via `spark.read.parquet()`.
+## 3. Orquestracao via Databricks Workflows (Jobs)
+- Os 5 notebooks modulares em `src/notebooks/` possuem cabecalhos documentando suas dependencias no Job:
+  1. `src/notebooks/bronze/aneel.py` (`bronze_aneel`) — Sem dependencias.
+  2. `src/notebooks/prata/tempo.py` (`prata_tempo`) — Sem dependencias.
+  3. `src/notebooks/prata/gd.py` (`prata_gd`) — Depende de `bronze_aneel`.
+  4. `src/notebooks/prata/localidade.py` (`prata_localidade`) — Depende de `bronze_aneel` e `prata_gd` (pois `dim_localidade` faz JOIN com `dim_distribuidoras`).
+  5. `src/notebooks/ouro/gd.py` (`ouro_gd`) — Depende de `prata_gd`, `prata_localidade` e `prata_tempo`.

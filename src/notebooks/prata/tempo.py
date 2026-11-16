@@ -1,4 +1,11 @@
 # Databricks notebook source
+# ==============================================================================
+# NOTEBOOK: PRATA TEMPO
+# CAMINHO NO JOB: src/notebooks/prata/tempo.py
+# DEPENDENCIAS NO JOB (Depende de): Sem dependencias (gerada via serie SQL)
+# TABELAS GERADAS:
+#   1. portfolio-lakehouse-prata.tempo.dim_calendario
+# ==============================================================================
 import os
 import sys
 

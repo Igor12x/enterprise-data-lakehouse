@@ -1,16 +1,24 @@
-# Skill 02: Clean Code Explicito (Estilo Java/C#), Ingestao Dual & Orquestracao
+# Skill 02: Clean Code Explicito (Estilo Java/C#), SRP & BaseNotebook
 
 ## 1. Estilo de Codificacao (Perfil BI / Java / C#)
 - **Proibido Abreviacoes e "Magicas" Pythonicas:** Nunca use operadores ternarios (`a if cond else b`), curto-circuitos (`x = a or b`) ou list comprehensions complexas. Escreva blocos `if / elif / else`, lacos `for` tradicionais e classes POJO/DTO com `__init__` explicito.
-- **Nomes Descritivos e Didaticos:** Use nomes completos (`dataframe_bruto`, `contrato_tabela`, `modo_carga`) e comentarios que conectem os conceitos com Power BI, SQL e Java/C#.
-- **Zero Codigo Morto ou Arquivos Vazios:** Mantenha apenas arquivos, pastas, metodos e imports ativamente utilizados.
+- **Zero Codigo Morto ou Pastas Duplicadas:** Nao existe pasta `notebooks/` fora de `src/` nem pasta `src/flows/`. Toda a execucao fica unificada em `src/notebooks/`.
 
-## 2. Padrao Dual de Ingestao Bronze (Parquet Direto vs Pandas)
-- **Opcao 1 — Parquet Direto (Padrao da ANEEL):** `run_parquet_direct()` -> `extract_parquet_file()` -> `write_parquet_direto_bronze()`. Baixa o `.parquet` em blocos de 1 MB para disco e lê nativamente no Spark (`spark.read.parquet()`), evitando conversao desnecessaria para Pandas em memoria RAM.
-- **Opcao 2 — Via Pandas (Mantida para APIs JSON/CSV):** `run()` -> `extract()` -> `write_delta_bronze()`.
-- **Logica Compartilhada:** Ambos convergem para `AdlsDatabricksConnector._salvar_dataframe_spark_na_bronze()` para executar `overwrite` (`full`) ou `MERGE INTO` (`incremental`).
-- **Lazy Loading da JVM:** Mantenha `self._sessao_spark = None` no `__init__` do `AdlsDatabricksConnector` para que os testes unitarios locais rodem sem Java/Hadoop.
+## 2. Separacao Estrita por Responsabilidade Unica (SRP)
+1. **`src/infrastructure/databricks_runtime.py` (`DatabricksRuntime`):**
+   - Gerencia `SparkSession` (Lazy Loading), valida e instala pacotes ausentes do `requirements.txt` (`garantir_dependencias_requirements`) e auto-descobre `DATABRICKS_HOST`, `DATABRICKS_HTTP_PATH` e `DATABRICKS_TOKEN` em tempo de execucao.
+2. **`src/infrastructure/dbt_runner.py` (`DbtRunner`):**
+   - Monta e executa comandos do dbt via `[sys.executable, "-m", "dbt.cli.main", "run", ...]`.
+3. **`src/connectors/adls_storage_connector.py` (`AdlsStorageConnector`):**
+   - Assinatura HTTP SharedKey (HMAC-SHA256) e upload REST em blocos de 4 MB (`Put Block` / `Put Block List`) para a Landing Zone do ADLS Gen2.
+4. **`src/persistence/delta_catalog_manager.py` (`DeltaCatalogManager`):**
+   - DDL no Unity Catalog (`CREATE SCHEMA IF NOT EXISTS`, `CREATE TABLE IF NOT EXISTS ... USING DELTA LOCATION`) e escrita Delta na Bronze (`full` Overwrite ou `incremental` `MERGE INTO`).
+5. **`src/ingestion/` (`BaseExtractor` e `AneelGdExtractor`):**
+   - Suporta 3 modos separados de ingestao Bronze:
+     - Tradicional via Pandas (`run()` -> `extract()` -> `write_delta_bronze()`)
+     - Tradicional via Parquet Local Direto (`run_parquet_direct()` -> `extract_parquet_file()` -> `write_parquet_direto_bronze()`)
+     - Opcao dedicada para fontes com restricao de IP no Brasil via Landing Zone ADLS (`run_landing_brasil()` -> `extract_landing_brasil_uri()` -> `write_parquet_landing_brasil_bronze()`)
 
-## 3. Orquestracao Central e Arvore de Dependencias
-- **Ponto de Entrada Unico:** `notebooks/main_pipeline.py` (substitui o antigo `main_ingest.py`) recebe os widgets `modo_carga` (`full`/`incremental`) e `camada_alvo` (`bronze`/`prata`/`ouro`/`todas`).
-- **Protecao de Dependencias (`FlowAneel`):** `ORDEM_TABELAS_PRATA`, `ORDEM_TABELAS_OURO` e `MAPA_DEPENDENCIAS` garantem com `validar_dependencias_tabela()` que nenhuma tabela filha seja gerada antes das tabelas mae existirem.
+## 3. Contrato de Notebooks (`src/notebooks/base_notebook.py`)
+- Todos os notebooks em `src/notebooks/<camada>/<produto>.py` instanciam `BaseNotebook`.
+- `BaseNotebook` garante o `requirements.txt`, carrega dinamicamente as tabelas do `catalog_dictionary.py`, cria os Widgets (`modo_carga` e `tabela_alvo`: `'todas'` + tabelas do catalogo), valida `validar_modo_carga()` e `validar_selecao_tabela()` e executa a carga.

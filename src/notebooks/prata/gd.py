@@ -1,4 +1,14 @@
 # Databricks notebook source
+# ==============================================================================
+# NOTEBOOK: PRATA GD
+# CAMINHO NO JOB: src/notebooks/prata/gd.py
+# DEPENDENCIAS NO JOB (Depende de):
+#   - bronze_aneel (src/notebooks/bronze/aneel.py)
+# TABELAS GERADAS (em ordem):
+#   1. portfolio-lakehouse-prata.gd.dim_distribuidoras
+#   2. portfolio-lakehouse-prata.gd.dim_classes_consumo
+#   3. portfolio-lakehouse-prata.gd.fato_empreendimentos_prata
+# ==============================================================================
 import os
 import sys
 

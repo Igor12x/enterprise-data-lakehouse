@@ -1,4 +1,11 @@
 # Databricks notebook source
+# ==============================================================================
+# NOTEBOOK: BRONZE ANEEL
+# CAMINHO NO JOB: src/notebooks/bronze/aneel.py
+# DEPENDENCIAS NO JOB (Depende de): Sem dependencias (1a etapa de ingestao)
+# TABELAS GERADAS:
+#   1. portfolio-lakehouse-bronze.aneel.aneel_gd_empreendimentos
+# ==============================================================================
 import os
 import sys
 

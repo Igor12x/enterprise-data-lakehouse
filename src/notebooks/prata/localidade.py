@@ -1,4 +1,16 @@
 # Databricks notebook source
+# ==============================================================================
+# NOTEBOOK: PRATA LOCALIDADE
+# CAMINHO NO JOB: src/notebooks/prata/localidade.py
+# DEPENDENCIAS NO JOB (Depende de):
+#   - bronze_aneel (src/notebooks/bronze/aneel.py)
+#   - prata_gd     (src/notebooks/prata/gd.py) -> pois dim_localidade faz JOIN com dim_distribuidoras
+# TABELAS GERADAS (em ordem):
+#   1. portfolio-lakehouse-prata.localidade.dim_regioes
+#   2. portfolio-lakehouse-prata.localidade.dim_ufs
+#   3. portfolio-lakehouse-prata.localidade.dim_municipios
+#   4. portfolio-lakehouse-prata.localidade.dim_localidade
+# ==============================================================================
 import os
 import sys
 
