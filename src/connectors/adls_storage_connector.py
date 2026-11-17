@@ -11,8 +11,8 @@ from src.config import settings
 class AdlsStorageConnector:
     """
     Responsabilidade Unica (Conectividade HTTP/REST com Azure Storage ADLS Gen2):
-    Realiza a assinatura criptografica SharedKey (HMAC-SHA256) e faz o upload direto
-    de arquivos brutos em blocos de 4 MB (Put Block / Put Block List) para a Landing Zone.
+    Realiza a assinatura criptografica SharedKey (HMAC-SHA256) e gerencia a Landing Zone
+    transitoria no ADLS Gen2 (upload em blocos de 4 MB e limpeza apos ingestao na Bronze).
     """
 
     def __init__(self) -> None:
@@ -20,31 +20,32 @@ class AdlsStorageConnector:
         self.storage_key = settings.AZURE_STORAGE_ACCOUNT_KEY
         self.container_bronze = settings.ADLS_CONTAINER_BRONZE
 
-    def _assinar_put_azure_blob(
+    def _assinar_requisicao_azure(
         self,
-        caminho_blob: str,
-        tamanho_bytes: int,
+        metodo_http: str,
+        caminho_recurso: str,
+        texto_tamanho: str,
         tipo_conteudo: str,
         parametros_query_ordenados: str
     ) -> dict:
         """
-        Gera os cabecalhos HTTP assinados com SharedKey (HMAC-SHA256) para operacoes PUT
-        na API REST do Azure Blob/ADLS Gen2 sem exigir bibliotecas extras.
+        Gera cabecalhos HTTP assinados com SharedKey (HMAC-SHA256) para operacoes REST
+        no Azure Blob / ADLS Gen2 sem exigir bibliotecas extras.
         """
         data_rfc1123 = formatdate(timeval=None, localtime=False, usegmt=True)
         versao_api_azure = "2023-11-03"
 
-        if tamanho_bytes > 0:
-            texto_tamanho = str(tamanho_bytes)
+        caminho_limpo = str(caminho_recurso).strip("/")
+        if caminho_limpo != "":
+            recurso_canonico = f"/{self.storage_account}/{self.container_bronze}/{caminho_limpo}"
         else:
-            texto_tamanho = ""
+            recurso_canonico = f"/{self.storage_account}/{self.container_bronze}"
 
-        recurso_canonico = f"/{self.storage_account}/{self.container_bronze}/{caminho_blob}"
         if parametros_query_ordenados != "":
             recurso_canonico = f"{recurso_canonico}\n{parametros_query_ordenados}"
 
         texto_para_assinar = (
-            f"PUT\n"
+            f"{metodo_http}\n"
             f"\n"
             f"\n"
             f"{texto_tamanho}\n"
@@ -72,10 +73,41 @@ class AdlsStorageConnector:
         cabecalhos = {
             "x-ms-date": data_rfc1123,
             "x-ms-version": versao_api_azure,
-            "Content-Length": str(tamanho_bytes),
-            "Content-Type": tipo_conteudo,
             "Authorization": f"SharedKey {self.storage_account}:{assinatura_base64}"
         }
+
+        if texto_tamanho != "":
+            cabecalhos["Content-Length"] = texto_tamanho
+        if tipo_conteudo != "":
+            cabecalhos["Content-Type"] = tipo_conteudo
+
+        return cabecalhos
+
+    def _assinar_put_azure_blob(
+        self,
+        caminho_blob: str,
+        tamanho_bytes: int,
+        tipo_conteudo: str,
+        parametros_query_ordenados: str
+    ) -> dict:
+        """
+        Gera os cabecalhos HTTP assinados com SharedKey (HMAC-SHA256) para operacoes PUT.
+        """
+        if tamanho_bytes > 0:
+            texto_tamanho = str(tamanho_bytes)
+        else:
+            texto_tamanho = ""
+
+        cabecalhos = self._assinar_requisicao_azure(
+            metodo_http="PUT",
+            caminho_recurso=caminho_blob,
+            texto_tamanho=texto_tamanho,
+            tipo_conteudo=tipo_conteudo,
+            parametros_query_ordenados=parametros_query_ordenados
+        )
+        if tamanho_bytes == 0:
+            cabecalhos["Content-Length"] = "0"
+
         return cabecalhos
 
     def upload_arquivo_para_landing_bronze(
@@ -176,3 +208,46 @@ class AdlsStorageConnector:
         )
         print(f"--> [Landing Zone ADLS] Upload concluido com sucesso em: {uri_landing_abfss}")
         return uri_landing_abfss
+
+    def excluir_caminho_landing_bronze(self, caminho_relativo_landing: str) -> None:
+        """
+        Implementa o padrao Transient Landing Zone: exclui recursivamente o arquivo ou
+        diretorio temporario na Landing Zone (ex: 'landing') no ADLS Gen2 via DFS REST API
+        apos a gravacao bem-sucedida da tabela Delta oficial da camada Bronze.
+        """
+        if caminho_relativo_landing is None or str(caminho_relativo_landing).strip() == "":
+            raise ValueError(
+                "[AdlsStorageConnector] O caminho relativo da Landing Zone nao pode ser vazio."
+            )
+
+        caminho_limpo = str(caminho_relativo_landing).strip("/")
+        url_delete_dfs = (
+            f"https://{self.storage_account}.dfs.core.windows.net/"
+            f"{self.container_bronze}/{caminho_limpo}?recursive=true"
+        )
+
+        cabecalhos_delete = self._assinar_requisicao_azure(
+            metodo_http="DELETE",
+            caminho_recurso=caminho_limpo,
+            texto_tamanho="",
+            tipo_conteudo="",
+            parametros_query_ordenados="recursive:true"
+        )
+
+        resposta_delete = requests.delete(
+            url=url_delete_dfs,
+            headers=cabecalhos_delete,
+            timeout=settings.TIMEOUT_CONEXAO_SEGUNDOS
+        )
+
+        if resposta_delete.status_code in [200, 202, 404]:
+            print(
+                f"--> [Transient Landing Zone] Pasta/arquivo temporario removido do ADLS: "
+                f"{self.container_bronze}/{caminho_limpo}"
+            )
+            return
+
+        raise RuntimeError(
+            f"[AdlsStorageConnector] Falha ao remover Landing Zone '{caminho_limpo}' no ADLS: "
+            f"Status {resposta_delete.status_code} - {resposta_delete.text}"
+        )

@@ -138,3 +138,28 @@ def test_aneel_extractor_disparo_azure_function_brasil(monkeypatch):
         "abfss://portfolio-lakehouse-bronze@portfolioigordatalake.dfs.core.windows.net/"
         "landing/aneel_gd/empreendimento-geracao-distribuida.parquet"
     )
+
+
+def test_aneel_extractor_transient_landing_limpeza(monkeypatch):
+    """Valida que limpar_landing_brasil remove a pasta transitoria 'landing' do ADLS."""
+    from src.ingestion.extractors.aneel_gd_extractor import AneelGdExtractor
+
+    extrator = AneelGdExtractor()
+    caminhos_excluidos = []
+
+    def excluir_mock(caminho_relativo_landing: str) -> None:
+        caminhos_excluidos.append(caminho_relativo_landing)
+
+    monkeypatch.setattr(
+        extrator.adls_storage_connector,
+        "excluir_caminho_landing_bronze",
+        excluir_mock
+    )
+
+    extrator.limpar_landing_brasil(
+        uri_landing_abfss=(
+            "abfss://portfolio-lakehouse-bronze@portfolioigordatalake.dfs.core.windows.net/"
+            "landing/aneel_gd/empreendimento-geracao-distribuida.parquet"
+        )
+    )
+    assert caminhos_excluidos == ["landing"]

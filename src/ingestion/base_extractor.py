@@ -65,6 +65,13 @@ class BaseExtractor(abc.ABC):
             f"'sincronizar_parquet_para_landing_adls()'."
         )
 
+    def limpar_landing_brasil(self, uri_landing_abfss: str) -> None:
+        """
+        Hook opcional (padrao Transient Landing Zone) acionado apos a gravacao bem-sucedida
+        na tabela Delta da camada Bronze para remover arquivos temporarios de staging.
+        """
+        return None
+
     def _validate_dataframe(
         self,
         dataframe_alvo: pd.DataFrame,
@@ -302,6 +309,8 @@ class BaseExtractor(abc.ABC):
             contrato_tabela=contrato_tabela,
             modo_carga=modo_limpo
         )
+
+        self.limpar_landing_brasil(uri_landing_abfss=uri_landing_abfss)
 
         print("--> [BaseExtractor] Ingestao Bronze (Landing Zone IP Brasil) finalizada com sucesso!")
         print(f"--> [BaseExtractor] Caminho ADLS: {uri_persistida}")

@@ -111,6 +111,18 @@ class AneelGdExtractor(BaseExtractor):
         )
         return uri_landing
 
+    def limpar_landing_brasil(self, uri_landing_abfss: str) -> None:
+        """
+        Implementa o padrao Transient Landing Zone: apos o Spark persistir a tabela Delta
+        oficial da camada Bronze ('aneel/aneel_gd_empreendimentos'), remove a pasta temporaria
+        'landing' no ADLS Gen2 para evitar custo duplicado e garantir que nunca haja leitura
+        de arquivos antigos.
+        """
+        pasta_raiz_landing = self.CAMINHO_LANDING_ADLS.split("/")[0]
+        self.adls_storage_connector.excluir_caminho_landing_bronze(
+            caminho_relativo_landing=pasta_raiz_landing
+        )
+
     def sincronizar_parquet_para_landing_adls(self) -> str:
         """
         Sincroniza o .parquet oficial da ANEEL para a Landing Zone do Azure ADLS Gen2.

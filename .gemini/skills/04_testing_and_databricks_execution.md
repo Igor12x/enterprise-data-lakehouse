@@ -15,7 +15,8 @@
 ## 3. Ingestao Cloud-Native contra Geo-Block (`func-lakehouse-ingestao-br` em `Brazil South`)
 - Portais governamentais brasileiros (`dadosabertos.aneel.gov.br`) bloqueiam conexoes vindas de datacenters nos EUA (`East US 2`).
 - Em toda execucao do notebook `src/notebooks/bronze/aneel.py` (`full` ou `incremental`), `AneelGdExtractor.extract_landing_brasil_uri()` aciona **obrigatoriamente** a Azure Function `func-lakehouse-ingestao-br` (`POST /api/sync_aneel_landing`, lida do segredo `aneel-br-function-url` no Key Vault `kv-portfolio-igor`).
-- A Azure Function em `Brazil South` baixa o `.parquet` atualizado da ANEEL em streaming (blocos de 1 MB) e sobrescreve o arquivo unico `abfss://portfolio-lakehouse-bronze@portfolioigordatalake.dfs.core.windows.net/landing/aneel_gd/empreendimento-geracao-distribuida.parquet` em blocos de 4 MB antes de o Spark gravar a tabela Delta `portfolio-lakehouse-bronze.aneel.aneel_gd_empreendimentos`.
+- A Azure Function em `Brazil South` baixa o `.parquet` atualizado da ANEEL em streaming (blocos de 1 MB) e grava em `abfss://portfolio-lakehouse-bronze@portfolioigordatalake.dfs.core.windows.net/landing/aneel_gd/empreendimento-geracao-distribuida.parquet` em blocos de 4 MB antes de o Spark gravar a tabela Delta `portfolio-lakehouse-bronze.aneel.aneel_gd_empreendimentos`.
+- **Transient Landing Zone:** Imediatamente apos a gravacao Delta em `aneel/aneel_gd_empreendimentos`, `AneelGdExtractor.limpar_landing_brasil()` aciona `AdlsStorageConnector.excluir_caminho_landing_bronze("landing")` para remover a pasta temporaria `landing` do ADLS Gen2 (economia de armazenamento e garantia de zero leitura de dados antigos).
 
 ## 4. Orquestracao via Databricks Workflows (Jobs)
 - Os 5 notebooks modulares em `src/notebooks/` possuem cabecalhos documentando suas dependencias no Job:
