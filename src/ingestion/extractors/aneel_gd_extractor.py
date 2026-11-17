@@ -42,11 +42,69 @@ class AneelGdExtractor(BaseExtractor):
             "Accept": "application/octet-stream"
         })
 
+    def disparar_sync_function_brasil(self, url_function: str = None) -> dict:
+        """
+        Aciona obrigatoriamente a Azure Function hospedada em Brazil South (IP brasileiro)
+        para baixar o .parquet atualizado da ANEEL na hora e sobrescrever o arquivo unico
+        na Landing Zone do ADLS Gen2, evitando qualquer atualizacao falsa com dados antigos.
+        """
+        url_alvo = None
+
+        if url_function is not None and str(url_function).strip() != "":
+            url_alvo = str(url_function).strip()
+        else:
+            url_configurada = settings.obter_url_function_aneel_br()
+            if url_configurada is not None and str(url_configurada).strip() != "":
+                url_alvo = str(url_configurada).strip()
+
+        if url_alvo is None or url_alvo == "":
+            raise ValueError(
+                "[AneelGdExtractor] A URL da Azure Function (ANEEL_BR_FUNCTION_URL / "
+                "aneel-br-function-url no Key Vault) nao foi encontrada. "
+                "Execucao bloqueada para evitar leitura de dados antigos no ADLS."
+            )
+
+        print("--> [AneelGdExtractor] Acionando Azure Function em Brazil South para buscar novos dados na ANEEL...")
+
+        try:
+            resposta = self.sessao_http.post(
+                url=url_alvo,
+                timeout=300
+            )
+            resposta.raise_for_status()
+            dados_retorno = resposta.json()
+        except requests.exceptions.RequestException as erro_http:
+            raise RuntimeError(
+                f"[AneelGdExtractor] Falha ao acionar Azure Function em Brazil South: {str(erro_http)}"
+            )
+
+        status_retorno = dados_retorno.get("status", "")
+        if status_retorno != "sucesso":
+            mensagem_falha = dados_retorno.get("mensagem", "Erro desconhecido na Azure Function.")
+            raise RuntimeError(
+                f"[AneelGdExtractor] A Azure Function retornou erro: {mensagem_falha}"
+            )
+
+        tamanho_mb = dados_retorno.get("tamanho_mb", "?")
+        uri_landing = dados_retorno.get("uri_landing_abfss", "")
+        print(
+            f"--> [AneelGdExtractor] Download na ANEEL via Brazil South concluido | "
+            f"Tamanho: {tamanho_mb} MB | Arquivo atualizado: {uri_landing}"
+        )
+        return dados_retorno
+
     def extract_landing_brasil_uri(self) -> str:
         """
         Opcao dedicada para fontes que exigem IP no Brasil:
-        Retorna a URI abfss:// do arquivo .parquet na Landing Zone do container Bronze.
+        Dispara obrigatoriamente a Azure Function em Brazil South em toda execucao (FULL ou INCREMENTAL)
+        para buscar os dados mais recentes direto na ANEEL antes de o Spark ler a Landing Zone.
         """
+        dados_retorno = self.disparar_sync_function_brasil()
+        uri_retornada = dados_retorno.get("uri_landing_abfss", "")
+
+        if uri_retornada is not None and str(uri_retornada).strip() != "":
+            return str(uri_retornada).strip()
+
         uri_landing = settings.obter_abfss_uri(
             container_name=settings.ADLS_CONTAINER_BRONZE,
             caminho_relativo=self.CAMINHO_LANDING_ADLS
@@ -55,10 +113,18 @@ class AneelGdExtractor(BaseExtractor):
 
     def sincronizar_parquet_para_landing_adls(self) -> str:
         """
-        Baixa o arquivo .parquet oficial da ANEEL a partir da maquina com IP no Brasil
-        (usando o metodo tradicional extract_parquet_file) e envia para a Landing Zone
-        do Azure ADLS Gen2 (portfolio-lakehouse-bronze).
+        Sincroniza o .parquet oficial da ANEEL para a Landing Zone do Azure ADLS Gen2.
+        Se a Azure Function em Brazil South estiver configurada, delega para a nuvem;
+        caso contrario, executa o download local e upload em blocos de 4 MB.
         """
+        if settings.ANEEL_BR_FUNCTION_URL is not None and str(settings.ANEEL_BR_FUNCTION_URL).strip() != "":
+            dados_retorno = self.disparar_sync_function_brasil(
+                url_function=settings.ANEEL_BR_FUNCTION_URL
+            )
+            uri_retornada = dados_retorno.get("uri_landing_abfss", "")
+            if uri_retornada != "":
+                return uri_retornada
+
         caminho_local_temp = self.extract_parquet_file()
 
         try:

@@ -56,6 +56,15 @@ class BaseExtractor(abc.ABC):
             f"[BaseExtractor] O extrator '{self.source_name}' nao implementou 'extract_landing_brasil_uri()'."
         )
 
+    def sincronizar_parquet_para_landing_adls(self) -> str:
+        """
+        Baixa o arquivo .parquet da fonte e envia para a Landing Zone do ADLS Gen2.
+        """
+        raise NotImplementedError(
+            f"[BaseExtractor] O extrator '{self.source_name}' nao implementou "
+            f"'sincronizar_parquet_para_landing_adls()'."
+        )
+
     def _validate_dataframe(
         self,
         dataframe_alvo: pd.DataFrame,

@@ -90,3 +90,51 @@ def test_base_extractor_validacao_uri_landing_brasil():
         "landing/aneel_gd/empreendimento-geracao-distribuida.parquet"
     )
     extrator._validate_uri_landing_brasil(uri_landing_abfss)
+
+
+def test_aneel_extractor_disparo_azure_function_brasil(monkeypatch):
+    """Valida que o AneelGdExtractor exige e aciona obrigatoriamente a Azure Function em Brazil South."""
+    from src.config import settings
+    from src.ingestion.extractors.aneel_gd_extractor import AneelGdExtractor
+
+    extrator = AneelGdExtractor()
+    monkeypatch.setattr(settings, "ANEEL_BR_FUNCTION_URL", None)
+    monkeypatch.setattr(settings, "obter_url_function_aneel_br", lambda: None)
+
+    with pytest.raises(ValueError):
+        extrator.disparar_sync_function_brasil()
+
+    with pytest.raises(ValueError):
+        extrator.extract_landing_brasil_uri()
+
+    url_mock = "https://func-lakehouse-ingestao-br.azurewebsites.net/api/sync_aneel_landing?code=abc"
+    monkeypatch.setattr(settings, "obter_url_function_aneel_br", lambda: url_mock)
+
+    class RespostaMock:
+        status_code = 200
+
+        def raise_for_status(self) -> None:
+            return None
+
+        def json(self) -> dict:
+            return {
+                "status": "sucesso",
+                "regiao_execucao": "Brazil South",
+                "tamanho_mb": 103.11,
+                "uri_landing_abfss": (
+                    "abfss://portfolio-lakehouse-bronze@portfolioigordatalake.dfs.core.windows.net/"
+                    "landing/aneel_gd/empreendimento-geracao-distribuida.parquet"
+                )
+            }
+
+    def post_mock(url: str, timeout: int):
+        assert url == url_mock
+        assert timeout == 300
+        return RespostaMock()
+
+    monkeypatch.setattr(extrator.sessao_http, "post", post_mock)
+    uri_obtida = extrator.extract_landing_brasil_uri()
+    assert uri_obtida == (
+        "abfss://portfolio-lakehouse-bronze@portfolioigordatalake.dfs.core.windows.net/"
+        "landing/aneel_gd/empreendimento-geracao-distribuida.parquet"
+    )
