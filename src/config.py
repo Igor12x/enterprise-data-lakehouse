@@ -69,7 +69,14 @@ class Settings:
             valor_padrao="portfolio-lakehouse-bronze"
         )
 
-        # 6. Valida se as credenciais obrigatorias foram carregadas com sucesso
+        # 6. URL da Azure Function em Brazil South (opcional localmente; lida do Key Vault no Databricks)
+        self.DATABRICKS_SECRET_FUNCTION_URL_KEY = "aneel-br-function-url"
+        self.ANEEL_BR_FUNCTION_URL = self._obter_segredo_opcional(
+            nome_env="ANEEL_BR_FUNCTION_URL",
+            nome_secret_key=self.DATABRICKS_SECRET_FUNCTION_URL_KEY
+        )
+
+        # 7. Valida se as credenciais obrigatorias foram carregadas com sucesso
         self._validar_credenciais_obrigatorias()
 
     def esta_rodando_no_databricks(self) -> bool:
@@ -124,6 +131,45 @@ class Settings:
             return chave_cofre
         except Exception:
             return None
+
+    def _obter_segredo_opcional(self, nome_env: str, nome_secret_key: str) -> str:
+        """
+        Busca um segredo primeiro no .env (ou variavel de ambiente).
+        No Databricks, a leitura do Key Vault e feita sob demanda em obter_url_function_aneel_br().
+        """
+        valor_ambiente = self._obter_valor(nome_chave=nome_env)
+
+        if valor_ambiente is not None and str(valor_ambiente).strip() != "":
+            return str(valor_ambiente).strip()
+
+        return None
+
+    def obter_url_function_aneel_br(self) -> str:
+        """
+        Retorna a URL completa da Azure Function em Brazil South.
+        Busca primeiro em self.ANEEL_BR_FUNCTION_URL (.env) e, caso esteja no Databricks
+        (Serverless ou Cluster Classico), busca diretamente no Secret Scope 'kv-portfolio-scope'.
+        """
+        if self.ANEEL_BR_FUNCTION_URL is not None and str(self.ANEEL_BR_FUNCTION_URL).strip() != "":
+            return str(self.ANEEL_BR_FUNCTION_URL).strip()
+
+        try:
+            from pyspark.sql import SparkSession
+            from pyspark.dbutils import DBUtils
+
+            sessao_spark = SparkSession.builder.getOrCreate()
+            utilitario_db = DBUtils(sessao_spark)
+            valor_cofre = utilitario_db.secrets.get(
+                scope=self.DATABRICKS_SECRET_SCOPE,
+                key=self.DATABRICKS_SECRET_FUNCTION_URL_KEY
+            )
+            if valor_cofre is not None and str(valor_cofre).strip() != "":
+                self.ANEEL_BR_FUNCTION_URL = str(valor_cofre).strip()
+                return self.ANEEL_BR_FUNCTION_URL
+        except Exception:
+            pass
+
+        return None
 
     def obter_abfss_uri(self, container_name: str, caminho_relativo: str = "") -> str:
         """

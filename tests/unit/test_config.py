@@ -62,6 +62,10 @@ def test_arquivos_sql_dbt_e_src_notebooks_existem():
     raiz_src_notebooks = settings.diretorio_src / "notebooks"
 
     arquivos_esperados = [
+        settings.diretorio_raiz / "azure_functions" / "aneel_landing_br" / "function_app.py",
+        settings.diretorio_raiz / "azure_functions" / "aneel_landing_br" / "host.json",
+        settings.diretorio_raiz / "azure_functions" / "aneel_landing_br" / "requirements.txt",
+        settings.diretorio_raiz / "azure_functions" / "aneel_landing_br" / ".funcignore",
         raiz_models / "bronze" / "aneel" / "_bronze_aneel__sources.yml",
         raiz_models / "prata" / "tempo" / "dim_calendario.sql",
         raiz_models / "prata" / "localidade" / "dim_regioes.sql",

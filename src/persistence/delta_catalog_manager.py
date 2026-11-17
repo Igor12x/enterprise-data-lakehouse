@@ -40,12 +40,19 @@ class DeltaCatalogManager:
 
     def verificar_se_tabela_existe(self, identificador_completo_sql: str) -> bool:
         """
-        Consulta o Unity Catalog do Databricks para saber se uma tabela ja foi criada.
+        Consulta o Unity Catalog do Databricks para saber se uma tabela ja foi criada
+        e se o caminho fisico Delta no ADLS continua existindo.
         """
         spark = self.runtime.obter_sessao_spark()
         identificador_formatado = self._formatar_identificador_sql(identificador_completo_sql)
-        tabela_existe = spark.catalog.tableExists(identificador_formatado)
-        return tabela_existe
+
+        try:
+            tabela_existe = spark.catalog.tableExists(identificador_formatado)
+            return tabela_existe
+        except Exception:
+            # Caso a pasta fisica tenha sido excluida manualmente no ADLS (DELTA_PATH_DOES_NOT_EXIST),
+            # retorna False para que a carga recrie os arquivos Delta na localizacao.
+            return False
 
     def garantir_schema_catalogo(self, schema_name: str, catalog_name: str = None) -> None:
         """
@@ -86,7 +93,11 @@ class DeltaCatalogManager:
         USING DELTA
         LOCATION '{uri_abfss}'
         """
-        spark.sql(comando_sql)
+        try:
+            spark.sql(comando_sql)
+        except Exception:
+            spark.sql(f"DROP TABLE IF EXISTS {identificador_tabela};")
+            spark.sql(comando_sql)
 
     def _salvar_dataframe_spark_na_bronze(
         self,
@@ -111,11 +122,19 @@ class DeltaCatalogManager:
             schema_name=contrato_tabela.schema_name,
             catalog_name=contrato_tabela.catalog_name
         )
-        tabela_ja_existe = self.verificar_se_tabela_existe(
-            identificador_completo_sql=contrato_tabela.full_table_identifier
-        )
 
-        if modo_limpo == "full" or tabela_ja_existe is False:
+        if modo_limpo == "full":
+            deve_recriar_tabela_completa = True
+        else:
+            tabela_ja_existe = self.verificar_se_tabela_existe(
+                identificador_completo_sql=contrato_tabela.full_table_identifier
+            )
+            if tabela_ja_existe is False:
+                deve_recriar_tabela_completa = True
+            else:
+                deve_recriar_tabela_completa = False
+
+        if deve_recriar_tabela_completa is True:
             print(f"--> [DeltaCatalogManager] Modo FULL: Gravando tabela Delta completa em {uri_abfss}")
             (
                 dataframe_spark.write

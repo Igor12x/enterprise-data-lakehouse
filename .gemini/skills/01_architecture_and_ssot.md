@@ -1,12 +1,15 @@
 # Skill 01: Arquitetura Cloud Azure, Unity Catalog & Catalogo SSOT
 
-## 1. Infraestrutura Azure ADLS Gen2 & Unity Catalog (3 Catalogos Medalhao)
+## 1. Infraestrutura Azure ADLS Gen2, Unity Catalog & Azure Function (`Brazil South`)
 - **Storage Account (ADLS Gen2):** `portfolioigordatalake` com 3 containers fisicos mapeados para 3 Catalogos no Unity Catalog via External Locations (`cred_adls_portfolio`):
   - **Bronze:** Container e Catalogo `portfolio-lakehouse-bronze`
   - **Prata:** Container e Catalogo `portfolio-lakehouse-prata`
   - **Ouro:** Container e Catalogo `portfolio-lakehouse-ouro`
-- **Compatibilidade Serverless & Clusters Classicos:** A autenticacao com o ADLS Gen2 e feita nativamente pelas External Locations do Unity Catalog (proibido usar `spark.conf.set("fs.azure.account.key...")`, pois o Serverless bloqueia).
-- **Seguranca Global:** Secret Scope `kv-portfolio-scope` (`adls-storage-key`) vinculado ao Azure Key Vault `kv-portfolio-igor`.
+- **Azure Function de Ingestao (`Brazil South`):** `func-lakehouse-ingestao-br` (Python 3.12, Linux, Consumo Flexivel, codigo em `azure_functions/aneel_landing_br/`). Contorna de forma 100% cloud-native o bloqueio geografico (Geo-Block) do portal da ANEEL para clusters Databricks nos EUA (`East US 2`).
+- **Compatibilidade Serverless & Clusters Classicos:** A autenticacao com o ADLS Gen2 no Spark e feita nativamente pelas External Locations do Unity Catalog (proibido usar `spark.conf.set("fs.azure.account.key...")`).
+- **Seguranca Global:** Secret Scope `kv-portfolio-scope` vinculado ao Azure Key Vault `kv-portfolio-igor` contendo:
+  - `adls-storage-key`: Chave da conta de armazenamento `portfolioigordatalake`.
+  - `aneel-br-function-url`: URL completa com Function Key do endpoint `POST /api/sync_aneel_landing`.
 
 ## 2. Organizacao de Schemas e Tabelas por Camada
 - **Camada Bronze (Alinhada a Fonte - Source-System Aligned):**

@@ -17,3 +17,5 @@ dbt-databricks>=1.8.0
 
 # Testes Unitarios Locais
 pytest>=8.0.0
+
+numpy>=1.26.0,<2.0.0
